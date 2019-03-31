@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "noEmitOnError": false,
+        "types": [
+            "jquery",
+            "node",
+        ],
+        "lib": [
+            "dom",
+            "es2015"
+        ]
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

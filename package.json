@@ -1,0 +1,28 @@
+{
+  "name": "crawler",
+  "version": "1.0.1",
+  "description": "",
+  "main": "./out/main.js",
+  "scripts": {
+    "test": "ts-mocha src/test.spec.ts",
+    "start": "ts-node src/main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/mocha": "^5.2.6",
+    "mocha": "^6.0.2",
+    "nickjs": "^0.3.6",
+    "ts-mocha": "^6.0.0",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.3333",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.29",
+    "@types/node": "^11.11.3",
+    "@types/winston": "^2.4.4",
+    "jquery": "^3.3.1"
+  }
+}
