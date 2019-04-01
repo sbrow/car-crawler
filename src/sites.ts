@@ -94,7 +94,7 @@ export const CarGuru: SearchResultOptions = {
     },
 };
 
-// export const sites = [AutoTrader, Cars, CarFax, CarGuru];
+export const sites = [AutoTrader, Cars, CarFax, CarGuru];
 // export const sites = [Cars, CarFax, CarGuru];
 
-export const sites = [Cars];
+// export const sites = [Cars];
