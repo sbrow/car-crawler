@@ -254,3 +254,4 @@ function instanceofPage(o) {
     }
     return true;
 }
+//# sourceMappingURL=funcs.js.map

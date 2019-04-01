@@ -15,3 +15,4 @@ describe("listings", function() {
     });
 });
  */
+//# sourceMappingURL=test.spec.js.map

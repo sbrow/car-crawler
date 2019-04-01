@@ -86,16 +86,26 @@ var scrapePage = function (m, callback) {
     for (var key in m) {
         if (m.hasOwnProperty(key)) {
             try {
-                var value = function (k, Default) {
-                    switch (k) {
-                        default:
-                            if ($(m[k]).text() !== "") {
-                                return $(m[k]).text().trim().replace("Not provided", "");
-                            }
+                var keys = m[key];
+                if (typeof keys === "string") {
+                    keys = [keys];
+                }
+                for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+                    var ky = keys_1[_i];
+                    var value = function (k, Default) {
+                        switch (k) {
+                            default:
+                                if ($(m[k]).text() !== "") {
+                                    return $(m[k]).text().trim().replace("Not provided", "");
+                                }
+                        }
+                        return Default;
+                    };
+                    data[key] = value(ky, data[key]);
+                    if (data[key] !== undefined && data[key] !== null && data[key] != "") {
+                        break;
                     }
-                    return Default;
-                };
-                data[key] = value(key, data[key]);
+                }
             }
             catch (e) {
                 funcs_1.HandleError(e);
@@ -267,3 +277,4 @@ function SearchResults(opts) {
     });
 }
 exports.SearchResults = SearchResults;
+//# sourceMappingURL=search.js.map

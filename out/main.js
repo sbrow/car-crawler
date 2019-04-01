@@ -40,7 +40,7 @@ var search_1 = require("./search");
 var sites_1 = require("./sites");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var exitCode, cars, _i, sites_2, site, results, e_1;
+        var exitCode, cars, _i, sites_2, site, results, car, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -59,7 +59,8 @@ function main() {
                 case 3:
                     results = _a.sent();
                     if (!(results instanceof Error)) {
-                        cars.push.apply(cars, results);
+                        car = new Car(results);
+                        cars.push(car);
                     }
                     _a.label = 4;
                 case 4:
@@ -82,3 +83,4 @@ function main() {
 }
 exports.main = main;
 // main();
+//# sourceMappingURL=main.js.map

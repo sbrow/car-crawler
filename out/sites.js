@@ -40,7 +40,10 @@ exports.Cars = {
             exterior: "li.vdp-details-basics__item:contains(\"Exterior\") > span",
             interior: "li.vdp-details-basics__item:contains(Interior Color) > span",
             mileage: "li.vdp-details-basics__item:contains(Mileage) > span",
-            price: ".vehicle-info__price-display--dealer",
+            price: [".vehicle-info__price-display--dealer", ".vehicle-info__price-display"],
+            seller_name: ".vdp-dealer-location > .vdp-dealer-info__title",
+            seller_location: ".vdp-dealer-location > .vdp-dealer-info__address",
+            seller_phone: ".vdp-dealer-contact__phoneStatic",
             vin: "li.vdp-details-basics__item:contains(\"VIN\") > span"
         },
         waitFor: ["div.vehicle-info__price", "div.vdp-details-basics"]
@@ -89,6 +92,7 @@ exports.CarGuru = {
         waitFor: [".cg-listingDetail-specsWrap"]
     }
 };
-// export const sites = [AutoTrader, Cars, CarFax, CarGuru];
+exports.sites = [exports.AutoTrader, exports.Cars, exports.CarFax, exports.CarGuru];
 // export const sites = [Cars, CarFax, CarGuru];
-exports.sites = [exports.Cars];
+// export const sites = [Cars];
+//# sourceMappingURL=sites.js.map
