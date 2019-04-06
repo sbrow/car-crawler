@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "noEmitOnError": false,
+        "types": [
+            "jquery",
+            "node",
+        ],
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "outDir": "out",
+        "sourceMap": true
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

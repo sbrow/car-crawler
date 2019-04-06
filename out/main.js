@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var car_1 = require("./car");
 var funcs_1 = require("./funcs");
 var search_1 = require("./search");
 var sites_1 = require("./sites");
@@ -59,7 +60,7 @@ function main() {
                 case 3:
                     results = _a.sent();
                     if (!(results instanceof Error)) {
-                        car = new Car(results);
+                        car = new car_1.Car(results);
                         cars.push(car);
                     }
                     _a.label = 4;

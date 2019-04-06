@@ -1,4 +1,4 @@
-import { Car } from "./car"
+import { Car } from "./car";
 import { console, HandleError, nick } from "./funcs";
 import { SearchResults } from "./search";
 import { sites } from "./sites";

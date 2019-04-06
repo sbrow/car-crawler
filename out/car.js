@@ -1,3 +1,5 @@
+"use strict";
+exports.__esModule = true;
 var Car = /** @class */ (function () {
     function Car(data) {
         this.make = data.make;
@@ -11,4 +13,5 @@ var Car = /** @class */ (function () {
     }
     return Car;
 }());
+exports.Car = Car;
 //# sourceMappingURL=car.js.map
