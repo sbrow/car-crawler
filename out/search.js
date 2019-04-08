@@ -71,7 +71,7 @@ var scrapeResult = function (selectors, callback) {
  * @param {(err: string, res: any) => any} callback
  * @returns {*}
  */
-var scrapePage = function (m, callback) {
+exports.scrapePage = function (m, callback) {
     var err = null;
     var title = document.title.replace(/^([\A-Z\d]* \|)|(Used)/, "").split(" ");
     var data = {
@@ -102,7 +102,8 @@ var scrapePage = function (m, callback) {
                         }
                         return Default;
                     };
-                    data[key] = value(ky, data[key]);
+                    // data[key] = value(ky, data[key]);
+                    data[key] = $(m[key]).text().trim();
                     if (data[key] !== undefined && data[key] !== null && data[key] != "") {
                         break;
                     }
@@ -264,7 +265,7 @@ function SearchResults(opts) {
                 case 2:
                     if (!(_i < urls_1.length)) return [3 /*break*/, 5];
                     url = urls_1[_i];
-                    return [4 /*yield*/, funcs_1.visit(url, scrapePage, opts.result)];
+                    return [4 /*yield*/, funcs_1.visit(url, exports.scrapePage, opts.result)];
                 case 3:
                     result = _a.sent();
                     funcs_1.console.debug("visit(" + url + ", scrapePage, " + JSON.stringify(opts.result) + ") result " + JSON.stringify(result));

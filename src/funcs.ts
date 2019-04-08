@@ -126,16 +126,17 @@ export async function visit(url: URL | string, scraper: Scraper, ...opts: any): 
                 for (const elem of untilVisible) {
                     try {
                         await tab.untilVisible(elem); // Make sure we have loaded the page.
+                        console.debug("Found!");
                     } catch (e) {
                         console.error(e);
-                        await tab.open(url.href);
-                        await fs.writeFile("./page.html", await tab.getContent());
+                        // await tab.open(url.href);
+                        // await fs.writeFile("./page.html", await tab.getContent());
                     }
                 }
                 try {
                     await tab.inject("http://code.jquery.com/jquery-3.2.1.min.js"); // We're going to use jQuery to scrape
                     const data = await tab.evaluate(scraper, selectors);
-                    console.debug(`data: ${data}`);
+                    console.debug(`data: ${JSON.stringify(data)}`);
                     ret = data;
                 } catch (e) {
                     console.error(e);

@@ -37,7 +37,7 @@ exports.Cars = {
     },
     result: {
         elements: {
-            exterior: "li.vdp-details-basics__item:contains(\"Exterior\") > span",
+            exterior: ".infoTable-table > tbody > tr > th:contains(\"Exterior Color\") +",
             interior: "li.vdp-details-basics__item:contains(Interior Color) > span",
             mileage: "li.vdp-details-basics__item:contains(Mileage) > span",
             price: [".vehicle-info__price-display--dealer", ".vehicle-info__price-display"],
@@ -61,7 +61,8 @@ exports.CarFax = {
     },
     result: {
         elements: {
-            exterior: ".infoTable-table > tbody > tr > th:contains(Exterior) +",
+            // exterior: `.infoTable-table > tbody > tr > th:contains(Exterior) +`,
+            exterior: ".infoTable-table > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)",
             interior: ".infoTable-table > tbody > tr > th:contains(Exterior) +",
             mileage: ".infoTable-table > tbody > tr > th:contains(Mileage) +",
             price: ".infoTable-table > tbody > tr > th:contains(Price) +",

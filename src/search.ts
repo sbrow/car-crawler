@@ -37,7 +37,7 @@ const scrapeResult: Scraper = (selectors: ResultsPage, callback: Callback): any 
  * @param {(err: string, res: any) => any} callback
  * @returns {*}
  */
-const scrapePage: Scraper = (m: Page, callback: Callback): any => {
+export const scrapePage: Scraper = (m: Page, callback: Callback): any => {
     let err: null | string = null;
     const title = document.title.replace(/^([\A-Z\d]* \|)|(Used)/, "").split(" ");
     const data = {
@@ -67,7 +67,8 @@ const scrapePage: Scraper = (m: Page, callback: Callback): any => {
                         }
                         return Default;
                     };
-                    data[key] = value(ky, data[key]);
+                    // data[key] = value(ky, data[key]);
+                    data[key] = $(m[key]).text().trim();
                     if (data[key] !== undefined && data[key] !== null && data[key] != "") {
                         break;
                     }

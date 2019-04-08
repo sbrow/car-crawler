@@ -35,7 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var fs_1 = require("fs");
 var logform_1 = require("logform");
 var Nick = require("nickjs");
 var winston_1 = require("winston");
@@ -114,11 +113,11 @@ function visit(url, scraper) {
         opts[_i - 2] = arguments[_i];
     }
     return __awaiter(this, void 0, void 0, function () {
-        var selectors, untilVisible, wait, ret, _a, untilVisible_1, elem, e_1, _b, _c, _d, data, e_2, e_3, e_4;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
+        var selectors, untilVisible, wait, ret, _a, untilVisible_1, elem, e_1, data, e_2, e_3, e_4;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    _e.trys.push([0, 22, , 23]);
+                    _b.trys.push([0, 19, , 20]);
                     try {
                         if (typeof url === "string") {
                             url = new URL(url);
@@ -141,83 +140,75 @@ function visit(url, scraper) {
                         untilVisible = opts[1];
                         wait = opts[2];
                     }
-                    _e.label = 1;
+                    _b.label = 1;
                 case 1:
-                    _e.trys.push([1, 20, , 21]);
+                    _b.trys.push([1, 17, , 18]);
                     if (!(exports.tab === null || exports.tab === undefined)) return [3 /*break*/, 3];
                     return [4 /*yield*/, exports.nick.newTab()];
                 case 2:
-                    exports.tab = _e.sent();
-                    _e.label = 3;
+                    exports.tab = _b.sent();
+                    _b.label = 3;
                 case 3:
                     if (!(wait > 0)) return [3 /*break*/, 5];
                     return [4 /*yield*/, exports.tab.wait(wait)];
                 case 4:
-                    _e.sent();
-                    _e.label = 5;
+                    _b.sent();
+                    _b.label = 5;
                 case 5: return [4 /*yield*/, exports.tab.open(url.href)];
                 case 6:
-                    _e.sent();
+                    _b.sent();
                     ret = void 0;
-                    if (!(untilVisible !== undefined)) return [3 /*break*/, 19];
+                    if (!(untilVisible !== undefined)) return [3 /*break*/, 16];
                     if (typeof untilVisible === "string") {
                         untilVisible = [untilVisible];
                     }
                     _a = 0, untilVisible_1 = untilVisible;
-                    _e.label = 7;
+                    _b.label = 7;
                 case 7:
-                    if (!(_a < untilVisible_1.length)) return [3 /*break*/, 15];
+                    if (!(_a < untilVisible_1.length)) return [3 /*break*/, 12];
                     elem = untilVisible_1[_a];
-                    _e.label = 8;
+                    _b.label = 8;
                 case 8:
-                    _e.trys.push([8, 10, , 14]);
+                    _b.trys.push([8, 10, , 11]);
                     return [4 /*yield*/, exports.tab.untilVisible(elem)];
                 case 9:
-                    _e.sent(); // Make sure we have loaded the page.
-                    return [3 /*break*/, 14];
+                    _b.sent(); // Make sure we have loaded the page.
+                    exports.console.debug("Found!");
+                    return [3 /*break*/, 11];
                 case 10:
-                    e_1 = _e.sent();
+                    e_1 = _b.sent();
                     exports.console.error(e_1);
-                    return [4 /*yield*/, exports.tab.open(url.href)];
+                    return [3 /*break*/, 11];
                 case 11:
-                    _e.sent();
-                    _c = (_b = fs_1.promises).writeFile;
-                    _d = ["./page.html"];
-                    return [4 /*yield*/, exports.tab.getContent()];
-                case 12: return [4 /*yield*/, _c.apply(_b, _d.concat([_e.sent()]))];
-                case 13:
-                    _e.sent();
-                    return [3 /*break*/, 14];
-                case 14:
                     _a++;
                     return [3 /*break*/, 7];
-                case 15:
-                    _e.trys.push([15, 18, , 19]);
+                case 12:
+                    _b.trys.push([12, 15, , 16]);
                     return [4 /*yield*/, exports.tab.inject("http://code.jquery.com/jquery-3.2.1.min.js")];
-                case 16:
-                    _e.sent(); // We're going to use jQuery to scrape
+                case 13:
+                    _b.sent(); // We're going to use jQuery to scrape
                     return [4 /*yield*/, exports.tab.evaluate(scraper, selectors)];
-                case 17:
-                    data = _e.sent();
-                    exports.console.debug("data: " + data);
+                case 14:
+                    data = _b.sent();
+                    exports.console.debug("data: " + JSON.stringify(data));
                     ret = data;
-                    return [3 /*break*/, 19];
-                case 18:
-                    e_2 = _e.sent();
+                    return [3 /*break*/, 16];
+                case 15:
+                    e_2 = _b.sent();
                     exports.console.error(e_2);
                     ret = e_2;
-                    return [3 /*break*/, 19];
-                case 19: return [2 /*return*/, ret];
-                case 20:
-                    e_3 = _e.sent();
+                    return [3 /*break*/, 16];
+                case 16: return [2 /*return*/, ret];
+                case 17:
+                    e_3 = _b.sent();
                     exports.console.error(e_3);
-                    return [3 /*break*/, 21];
-                case 21: return [3 /*break*/, 23];
-                case 22:
-                    e_4 = _e.sent();
+                    return [3 /*break*/, 18];
+                case 18: return [3 /*break*/, 20];
+                case 19:
+                    e_4 = _b.sent();
                     exports.console.error(e_4.stack);
                     throw new Error(e_4);
-                case 23: return [2 /*return*/];
+                case 20: return [2 /*return*/];
             }
         });
     });

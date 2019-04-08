@@ -1,21 +1,15 @@
 "use strict";
 exports.__esModule = true;
-/* tslint:disable only-arrow-functions */
-/*
-import * as assert from "assert";
-import * as mocha from "mocha";
-
-import { Listings } from "./listings";
-describe("listings", function() {
-    describe("#Scrape", function() {
-        it("should contain: \"http\"", function() {
-            const url = new URL("https://www.google.com");
-            const listing = new Listings("", "", url);
-            const n = listing.scrape(listing.selectors, () => null);
-            assert.equal(listing.listings, []);
+var funcs_1 = require("./funcs");
+var search_1 = require("./search");
+var sites_1 = require("./sites");
+describe("listings", function () {
+    describe("#Scrape", function () {
+        it("should contain: \"http\"", function () {
+            funcs_1.visit("https://www.carfax.com/vehicle/WDDSJ4EB1HN424394", search_1.scrapePage, sites_1.sites[1].result)
+                .then(function (res) { return console.log(JSON.stringify(res)); });
         });
     });
 });
- */
 // main();
 //# sourceMappingURL=test.spec.js.map
