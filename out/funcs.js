@@ -114,10 +114,11 @@ function visit(url, scraper) {
         opts[_i - 2] = arguments[_i];
     }
     return __awaiter(this, void 0, void 0, function () {
-        var selectors, untilVisible, wait, ret, _a, untilVisible_1, elem, e_1, _b, _c, _d, data, e_2, e_3;
+        var selectors, untilVisible, wait, ret, _a, untilVisible_1, elem, e_1, _b, _c, _d, data, e_2, e_3, e_4;
         return __generator(this, function (_e) {
             switch (_e.label) {
                 case 0:
+                    _e.trys.push([0, 22, , 23]);
                     try {
                         if (typeof url === "string") {
                             url = new URL(url);
@@ -198,7 +199,7 @@ function visit(url, scraper) {
                     return [4 /*yield*/, exports.tab.evaluate(scraper, selectors)];
                 case 17:
                     data = _e.sent();
-                    exports.console.debug(data);
+                    exports.console.debug("data: " + data);
                     ret = data;
                     return [3 /*break*/, 19];
                 case 18:
@@ -211,7 +212,12 @@ function visit(url, scraper) {
                     e_3 = _e.sent();
                     exports.console.error(e_3);
                     return [3 /*break*/, 21];
-                case 21: return [2 /*return*/];
+                case 21: return [3 /*break*/, 23];
+                case 22:
+                    e_4 = _e.sent();
+                    exports.console.error(e_4.stack);
+                    throw new Error(e_4);
+                case 23: return [2 /*return*/];
             }
         });
     });
@@ -246,9 +252,9 @@ function instanceofPage(o) {
             return false;
         }
         for (var key in o.elements) {
-            if (typeof key !== "string" || typeof o.elements[key] !== "string") {
-                exports.console.debug("\"" + JSON.stringify(o) + "\" ! instanceof Page: o.elements is not \"{[name: string]: string}\"");
-                return false;
+            if (typeof key !== "string" || (typeof o.elements[key] !== "string" && !(o.elements[key] instanceof Array))) {
+                // console.debug(`"${JSON.stringify(o)}" ! instanceof Page: o.elements is not "{[name: string]: string}"`);
+                // return false;
             }
         }
     }

@@ -169,8 +169,8 @@ export async function Search(opts: SearchOptions): Promise<URL[] | null> {
 export async function SearchResults(opts: SearchResultOptions): Promise<object[] | Error> {
     let ret: any[] | Error;
     try {
-        const results: object[] = new Array<object>();
-        let result: object;
+        const results = [];
+        let result: any;
         const urls = await Search(opts.search);
         if (typeof opts.search.entry === "string") {
             opts.search.entry = new URL(opts.search.entry);
@@ -182,6 +182,7 @@ export async function SearchResults(opts: SearchResultOptions): Promise<object[]
         bar.render();
         for (const url of urls) {
             result = await visit(url, scrapePage, opts.result);
+            console.debug(`visit(${url}, scrapePage, ${JSON.stringify(opts.result)}) result ${JSON.stringify(result)}`);
             results.push(result);
             bar.tick();
         }

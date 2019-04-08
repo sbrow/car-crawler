@@ -246,7 +246,7 @@ function SearchResults(opts) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 6, , 7]);
-                    results = new Array();
+                    results = [];
                     result = void 0;
                     return [4 /*yield*/, Search(opts.search)];
                 case 1:
@@ -267,6 +267,7 @@ function SearchResults(opts) {
                     return [4 /*yield*/, funcs_1.visit(url, scrapePage, opts.result)];
                 case 3:
                     result = _a.sent();
+                    funcs_1.console.debug("visit(" + url + ", scrapePage, " + JSON.stringify(opts.result) + ") result " + JSON.stringify(result));
                     results.push(result);
                     bar.tick();
                     _a.label = 4;

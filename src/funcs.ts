@@ -89,63 +89,66 @@ export function visit(url: URL | string, scraper: Scraper, selectors: Selectors,
 export function visit(url: URL | string, scraper: Scraper, opts: Page): Promise<any>;
 export async function visit(url: URL | string, scraper: Scraper, ...opts: any): Promise<any> {
     try {
-        if (typeof url === "string") {
-            url = new URL(url);
-        }
-    } catch (e) {
-        HandleError(e);
-        return e;
-    }
-    let selectors: Selectors = [];
-    let untilVisible: JQuery.Selector | JQuery.Selector[] = [];
-    let wait: number = 0;
-
-    if (instanceofPage(opts[0])) {
-        selectors = opts[0].elements;
-        untilVisible = opts[0].waitFor;
-        wait = opts[0].wait;
-    } else {
-        selectors = opts[0];
-        untilVisible = opts[1];
-        wait = opts[2];
-    }
-    try {
-        if (tab === null || tab === undefined) {
-            tab = await nick.newTab();
-        }
-        if (wait > 0) {
-            await tab.wait(wait);
-        }
-        await tab.open(url.href);
-        let ret;
-        if (untilVisible !== undefined) {
-            if (typeof untilVisible === "string") {
-                untilVisible = [untilVisible];
+        try {
+            if (typeof url === "string") {
+                url = new URL(url);
             }
-            for (const elem of untilVisible) {
+        } catch (e) {
+            HandleError(e);
+            return e;
+        }
+        let selectors: Selectors = [];
+        let untilVisible: JQuery.Selector | JQuery.Selector[] = [];
+        let wait: number = 0;
+
+        if (instanceofPage(opts[0])) {
+            selectors = opts[0].elements;
+            untilVisible = opts[0].waitFor;
+            wait = opts[0].wait;
+        } else {
+            selectors = opts[0];
+            untilVisible = opts[1];
+            wait = opts[2];
+        }
+        try {
+            if (tab === null || tab === undefined) {
+                tab = await nick.newTab();
+            }
+            if (wait > 0) {
+                await tab.wait(wait);
+            }
+            await tab.open(url.href);
+            let ret;
+            if (untilVisible !== undefined) {
+                if (typeof untilVisible === "string") {
+                    untilVisible = [untilVisible];
+                }
+                for (const elem of untilVisible) {
+                    try {
+                        await tab.untilVisible(elem); // Make sure we have loaded the page.
+                    } catch (e) {
+                        console.error(e);
+                        await tab.open(url.href);
+                        await fs.writeFile("./page.html", await tab.getContent());
+                    }
+                }
                 try {
-                    await tab.untilVisible(elem); // Make sure we have loaded the page.
+                    await tab.inject("http://code.jquery.com/jquery-3.2.1.min.js"); // We're going to use jQuery to scrape
+                    const data = await tab.evaluate(scraper, selectors);
+                    console.debug(`data: ${data}`);
+                    ret = data;
                 } catch (e) {
                     console.error(e);
-                    await tab.open(url.href);
-                    await fs.writeFile("./page.html", await tab.getContent());
+                    ret = e;
                 }
             }
-            try {
-                await tab.inject("http://code.jquery.com/jquery-3.2.1.min.js"); // We're going to use jQuery to scrape
-                const data = await tab.evaluate(scraper, selectors);
-                console.debug(data);
-                ret = data;
-            } catch (e) {
-                console.error(e);
-                ret = e;
-            }
-
+            return ret;
+        } catch (e) {
+            console.error(e);
         }
-
-        return ret;
     } catch (e) {
-        console.error(e);
+        console.error(e.stack);
+        throw new Error(e);
     }
 }
 
@@ -177,9 +180,9 @@ function instanceofPage(o: any): boolean {
             return false;
         }
         for (const key in o.elements) {
-            if (typeof key !== "string" || typeof o.elements[key] !== "string") {
-                console.debug(`"${JSON.stringify(o)}" ! instanceof Page: o.elements is not "{[name: string]: string}"`);
-                return false;
+            if (typeof key !== "string" || (typeof o.elements[key] !== "string" && !(o.elements[key] instanceof Array))) {
+                // console.debug(`"${JSON.stringify(o)}" ! instanceof Page: o.elements is not "{[name: string]: string}"`);
+                // return false;
             }
         }
     }

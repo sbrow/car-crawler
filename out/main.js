@@ -42,7 +42,7 @@ var search_1 = require("./search");
 var sites_1 = require("./sites");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var exitCode, cars, bar, i, site, results, car, e_1;
+        var exitCode, cars, bar, i, site, results, _i, results_1, result, car, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -65,8 +65,12 @@ function main() {
                 case 3:
                     results = _a.sent();
                     if (!(results instanceof Error)) {
-                        car = new car_1.Car(results);
-                        cars.push(car);
+                        for (_i = 0, results_1 = results; _i < results_1.length; _i++) {
+                            result = results_1[_i];
+                            car = new car_1.Car(result);
+                            funcs_1.console.info("Pushing " + JSON.stringify(car));
+                            cars.push(car);
+                        }
                     }
                     bar.tick({ site: sites_1.sites[i + 1].search.entry });
                     _a.label = 4;

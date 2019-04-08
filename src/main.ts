@@ -18,8 +18,11 @@ export async function main(): Promise<Car[] | Error> {
             const site = sites[i];
             const results = await SearchResults(site);
             if (!(results instanceof Error)) {
-                const car = new Car(results);
-                cars.push(car);
+                for (const result of results) {
+                    const car = new Car(result);
+                    console.info(`Pushing ${JSON.stringify(car)}`);
+                    cars.push(car);
+                }
             }
             bar.tick({ site: sites[i + 1].search.entry });
         }
