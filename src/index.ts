@@ -70,5 +70,5 @@ interface SearchResultOptions {
     search: SearchOptions;
     result: Page;
 }
-declare type Callback = (err: string, res: any) => any;
-declare type Scraper = (arg: JQuery.PlainObject, callback: Callback) => any;
+export declare type Callback = (err: string, res: any) => any;
+export declare type Scraper = (arg: JQuery.PlainObject, callback: Callback) => any;

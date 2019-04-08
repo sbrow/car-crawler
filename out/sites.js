@@ -92,7 +92,7 @@ exports.CarGuru = {
         waitFor: [".cg-listingDetail-specsWrap"]
     }
 };
-exports.sites = [exports.AutoTrader, exports.Cars, exports.CarFax, exports.CarGuru];
+exports.sites = [exports.Cars, exports.CarFax, exports.CarGuru, exports.AutoTrader];
 // export const sites = [Cars, CarFax, CarGuru];
 // export const sites = [Cars];
 //# sourceMappingURL=sites.js.map

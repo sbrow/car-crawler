@@ -1,3 +1,5 @@
+import { main } from "./main";
+
 /* tslint:disable only-arrow-functions */
 /*
 import * as assert from "assert";
@@ -15,3 +17,5 @@ describe("listings", function() {
     });
 });
  */
+
+main();

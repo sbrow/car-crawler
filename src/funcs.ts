@@ -4,6 +4,8 @@ import * as Nick from "nickjs";
 import Tab from "nickjs";
 import { createLogger, transports } from "winston";
 
+import { Callback, Page, Scraper, Selectors } from "./index";
+
 let level = "info";
 if ("DEBUG" in process.env && process.env.DEBUG.match(/true|1/)) {
     level = "debug";
@@ -120,9 +122,9 @@ export async function visit(url: URL | string, scraper: Scraper, ...opts: any): 
             if (typeof untilVisible === "string") {
                 untilVisible = [untilVisible];
             }
-            for (const { } of untilVisible) {
+            for (const elem of untilVisible) {
                 try {
-                    await tab.untilVisible(untilVisible); // Make sure we have loaded the page.
+                    await tab.untilVisible(elem); // Make sure we have loaded the page.
                 } catch (e) {
                     console.error(e);
                     await tab.open(url.href);

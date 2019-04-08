@@ -34,50 +34,96 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 exports.__esModule = true;
+var ProgressBar = require("progress");
 var car_1 = require("./car");
 var funcs_1 = require("./funcs");
 var search_1 = require("./search");
 var sites_1 = require("./sites");
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var exitCode, cars, _i, sites_2, site, results, car, e_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var e_1, _a, exitCode, cars, bar, _b, _c, _d, i, site, results, car, e_1_1, e_2;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
                 case 0:
                     exitCode = 0;
-                    _a.label = 1;
+                    _e.label = 1;
                 case 1:
-                    _a.trys.push([1, 6, , 7]);
+                    _e.trys.push([1, 10, , 11]);
                     cars = new Array();
-                    _i = 0, sites_2 = sites_1.sites;
-                    _a.label = 2;
+                    bar = new ProgressBar("Finding cars from \":site\" :current/:total [:bar] (:percent)\r\n", {
+                        head: "+",
+                        total: sites_1.sites.length
+                    });
+                    bar.render({ site: sites_1.sites[0].search.entry });
+                    _e.label = 2;
                 case 2:
-                    if (!(_i < sites_2.length)) return [3 /*break*/, 5];
-                    site = sites_2[_i];
-                    funcs_1.console.info("Searching " + site.search.entry + "...");
-                    return [4 /*yield*/, search_1.SearchResults(site)];
+                    _e.trys.push([2, 7, 8, 9]);
+                    _b = __values(sites_1.sites.entries()), _c = _b.next();
+                    _e.label = 3;
                 case 3:
-                    results = _a.sent();
+                    if (!!_c.done) return [3 /*break*/, 6];
+                    _d = __read(_c.value, 2), i = _d[0], site = _d[1];
+                    return [4 /*yield*/, search_1.SearchResults(site)];
+                case 4:
+                    results = _e.sent();
                     if (!(results instanceof Error)) {
                         car = new car_1.Car(results);
                         cars.push(car);
                     }
-                    _a.label = 4;
-                case 4:
-                    _i++;
-                    return [3 /*break*/, 2];
-                case 5: 
+                    bar.tick({ site: sites_1.sites[i + 1].search.entry });
+                    _e.label = 5;
+                case 5:
+                    _c = _b.next();
+                    return [3 /*break*/, 3];
+                case 6: return [3 /*break*/, 9];
+                case 7:
+                    e_1_1 = _e.sent();
+                    e_1 = { error: e_1_1 };
+                    return [3 /*break*/, 9];
+                case 8:
+                    try {
+                        if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+                    }
+                    finally { if (e_1) throw e_1.error; }
+                    return [7 /*endfinally*/];
+                case 9: 
                 // const path = "./cars.json";
                 // await fs.writeFile(path, JSON.stringify({ aaData: cars }, null, 2));
                 // console.info(`Results saved to ${path}`);
                 return [2 /*return*/, cars];
-                case 6:
-                    e_1 = _a.sent();
-                    funcs_1.HandleError(e_1);
+                case 10:
+                    e_2 = _e.sent();
+                    funcs_1.HandleError(e_2);
                     exitCode = 1;
-                    return [2 /*return*/, e_1];
-                case 7: return [2 /*return*/];
+                    return [2 /*return*/, e_2];
+                case 11: return [2 /*return*/];
             }
         });
     });

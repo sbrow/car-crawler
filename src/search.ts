@@ -1,6 +1,7 @@
-import { promises as fs } from "fs";
+import * as ProgressBar from "progress";
 
 import { console, HandleError, nick, visit } from "./funcs";
+import { Callback, Page, ResultsPage, Scraper, SearchOptions, SearchResultOptions } from "./index";
 
 /**
  * @returns the results from a "Search Results" style page.
@@ -171,9 +172,18 @@ export async function SearchResults(opts: SearchResultOptions): Promise<object[]
         const results: object[] = new Array<object>();
         let result: object;
         const urls = await Search(opts.search);
+        if (typeof opts.search.entry === "string") {
+            opts.search.entry = new URL(opts.search.entry);
+        }
+        const bar = new ProgressBar(`Scraping results from "${opts.search.entry.hostname}" :current/:total [:bar] (:percent)\r\n`, {
+            head: "+",
+            total: urls.length,
+        });
+        bar.render();
         for (const url of urls) {
             result = await visit(url, scrapePage, opts.result);
             results.push(result);
+            bar.tick();
         }
         ret = results;
     } catch (e) {

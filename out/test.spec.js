@@ -1,3 +1,6 @@
+"use strict";
+exports.__esModule = true;
+var main_1 = require("./main");
 /* tslint:disable only-arrow-functions */
 /*
 import * as assert from "assert";
@@ -15,4 +18,5 @@ describe("listings", function() {
     });
 });
  */
+main_1.main();
 //# sourceMappingURL=test.spec.js.map

@@ -1,3 +1,5 @@
+import { SearchResultOptions } from "./index";
+
 const zip = "14850";
 const radius = "20"; // miles
 
@@ -94,7 +96,7 @@ export const CarGuru: SearchResultOptions = {
     },
 };
 
-export const sites = [AutoTrader, Cars, CarFax, CarGuru];
+export const sites = [Cars, CarFax, CarGuru, AutoTrader];
 // export const sites = [Cars, CarFax, CarGuru];
 
 // export const sites = [Cars];
