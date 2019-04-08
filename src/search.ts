@@ -11,7 +11,7 @@ const scrapeResult: Scraper = (selectors: ResultsPage, callback: Callback): any 
     const newListings: string[] = [];
 
     try {
-        $(selectors.result).each(function () {
+        $(selectors.result).each(function() {
             const reg = /(\$\()(.*)(\))/;
             let attr: string = selectors.resultURL.match(reg)[2];
             attr = $(this).attr(attr);

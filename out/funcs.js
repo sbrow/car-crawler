@@ -34,16 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __values = (this && this.__values) || function (o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-};
 exports.__esModule = true;
 var fs_1 = require("fs");
 var logform_1 = require("logform");
@@ -124,7 +114,7 @@ function visit(url, scraper) {
         opts[_i - 2] = arguments[_i];
     }
     return __awaiter(this, void 0, void 0, function () {
-        var e_1, _a, selectors, untilVisible, wait, ret, untilVisible_1, untilVisible_1_1, elem, e_2, _b, _c, _d, e_1_1, data, e_3, e_4;
+        var selectors, untilVisible, wait, ret, _a, untilVisible_1, elem, e_1, _b, _c, _d, data, e_2, e_3;
         return __generator(this, function (_e) {
             switch (_e.label) {
                 case 0:
@@ -150,9 +140,9 @@ function visit(url, scraper) {
                         untilVisible = opts[1];
                         wait = opts[2];
                     }
-                    _f.label = 1;
+                    _e.label = 1;
                 case 1:
-                    _e.trys.push([1, 24, , 25]);
+                    _e.trys.push([1, 20, , 21]);
                     if (!(exports.tab === null || exports.tab === undefined)) return [3 /*break*/, 3];
                     return [4 /*yield*/, exports.nick.newTab()];
                 case 2:
@@ -166,76 +156,62 @@ function visit(url, scraper) {
                     _e.label = 5;
                 case 5: return [4 /*yield*/, exports.tab.open(url.href)];
                 case 6:
-                    _f.sent();
+                    _e.sent();
                     ret = void 0;
-                    if (!(untilVisible !== undefined)) return [3 /*break*/, 23];
+                    if (!(untilVisible !== undefined)) return [3 /*break*/, 19];
                     if (typeof untilVisible === "string") {
                         untilVisible = [untilVisible];
                     }
+                    _a = 0, untilVisible_1 = untilVisible;
                     _e.label = 7;
                 case 7:
-                    _e.trys.push([7, 17, 18, 19]);
-                    untilVisible_1 = __values(untilVisible), untilVisible_1_1 = untilVisible_1.next();
+                    if (!(_a < untilVisible_1.length)) return [3 /*break*/, 15];
+                    elem = untilVisible_1[_a];
                     _e.label = 8;
                 case 8:
-                    if (!!untilVisible_1_1.done) return [3 /*break*/, 16];
-                    elem = untilVisible_1_1.value;
-                    _e.label = 9;
-                case 9:
-                    _e.trys.push([9, 11, , 15]);
+                    _e.trys.push([8, 10, , 14]);
                     return [4 /*yield*/, exports.tab.untilVisible(elem)];
-                case 10:
+                case 9:
                     _e.sent(); // Make sure we have loaded the page.
-                    return [3 /*break*/, 15];
-                case 11:
-                    e_2 = _e.sent();
-                    exports.console.error(e_2);
+                    return [3 /*break*/, 14];
+                case 10:
+                    e_1 = _e.sent();
+                    exports.console.error(e_1);
                     return [4 /*yield*/, exports.tab.open(url.href)];
-                case 12:
+                case 11:
                     _e.sent();
                     _c = (_b = fs_1.promises).writeFile;
                     _d = ["./page.html"];
                     return [4 /*yield*/, exports.tab.getContent()];
-                case 13: return [4 /*yield*/, _c.apply(_b, _d.concat([_e.sent()]))];
-                case 14:
+                case 12: return [4 /*yield*/, _c.apply(_b, _d.concat([_e.sent()]))];
+                case 13:
                     _e.sent();
-                    return [3 /*break*/, 15];
+                    return [3 /*break*/, 14];
+                case 14:
+                    _a++;
+                    return [3 /*break*/, 7];
                 case 15:
-                    untilVisible_1_1 = untilVisible_1.next();
-                    return [3 /*break*/, 8];
-                case 16: return [3 /*break*/, 19];
-                case 17:
-                    e_1_1 = _e.sent();
-                    e_1 = { error: e_1_1 };
-                    return [3 /*break*/, 19];
-                case 18:
-                    try {
-                        if (untilVisible_1_1 && !untilVisible_1_1.done && (_a = untilVisible_1["return"])) _a.call(untilVisible_1);
-                    }
-                    finally { if (e_1) throw e_1.error; }
-                    return [7 /*endfinally*/];
-                case 19:
-                    _e.trys.push([19, 22, , 23]);
+                    _e.trys.push([15, 18, , 19]);
                     return [4 /*yield*/, exports.tab.inject("http://code.jquery.com/jquery-3.2.1.min.js")];
-                case 20:
+                case 16:
                     _e.sent(); // We're going to use jQuery to scrape
                     return [4 /*yield*/, exports.tab.evaluate(scraper, selectors)];
-                case 21:
+                case 17:
                     data = _e.sent();
                     exports.console.debug(data);
                     ret = data;
-                    return [3 /*break*/, 23];
-                case 22:
+                    return [3 /*break*/, 19];
+                case 18:
+                    e_2 = _e.sent();
+                    exports.console.error(e_2);
+                    ret = e_2;
+                    return [3 /*break*/, 19];
+                case 19: return [2 /*return*/, ret];
+                case 20:
                     e_3 = _e.sent();
                     exports.console.error(e_3);
-                    ret = e_3;
-                    return [3 /*break*/, 23];
-                case 23: return [2 /*return*/, ret];
-                case 24:
-                    e_4 = _e.sent();
-                    exports.console.error(e_4);
-                    return [3 /*break*/, 25];
-                case 25: return [2 /*return*/];
+                    return [3 /*break*/, 21];
+                case 21: return [2 /*return*/];
             }
         });
     });
@@ -243,7 +219,6 @@ function visit(url, scraper) {
 exports.visit = visit;
 /** @returns {boolean} whether `o` implements the `Page` interface. */
 function instanceofPage(o) {
-    var e_5, _a;
     if (typeof o !== "object") {
         exports.console.debug(o + " ! instanceof Page: typeof o is not \"object\"");
         return false;
@@ -253,21 +228,12 @@ function instanceofPage(o) {
             exports.console.debug(o + " ! instanceof Page: typeof o.waitFor is not \"string\" or \"string[]\"");
             return false;
         }
-        try {
-            for (var _b = __values(o.waitFor), _c = _b.next(); !_c.done; _c = _b.next()) {
-                var elem = _c.value;
-                if (typeof elem !== "string") {
-                    exports.console.debug(o + " ! instanceof Page: typeof o.waitFor is not \"string\" or \"string[]\"");
-                    return false;
-                }
+        for (var _i = 0, _a = o.waitFor; _i < _a.length; _i++) {
+            var elem = _a[_i];
+            if (typeof elem !== "string") {
+                exports.console.debug(o + " ! instanceof Page: typeof o.waitFor is not \"string\" or \"string[]\"");
+                return false;
             }
-        }
-        catch (e_5_1) { e_5 = { error: e_5_1 }; }
-        finally {
-            try {
-                if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
-            }
-            finally { if (e_5) throw e_5.error; }
         }
     }
     if ("wait" in o && typeof o.wait !== "number") {

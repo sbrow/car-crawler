@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Car represents a dealer listing for a vehicle.
  *
@@ -13,4 +14,5 @@
 //     url?: URL;
 //     vin?: JQuery.Selector;
 // }
+exports.__esModule = true;
 //# sourceMappingURL=index.js.map

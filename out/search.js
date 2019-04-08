@@ -34,16 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __values = (this && this.__values) || function (o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-};
 exports.__esModule = true;
 var ProgressBar = require("progress");
 var funcs_1 = require("./funcs");
@@ -82,7 +72,6 @@ var scrapeResult = function (selectors, callback) {
  * @returns {*}
  */
 var scrapePage = function (m, callback) {
-    var e_1, _a;
     var err = null;
     var title = document.title.replace(/^([\A-Z\d]* \|)|(Used)/, "").split(" ");
     var data = {
@@ -102,30 +91,21 @@ var scrapePage = function (m, callback) {
                 if (typeof keys === "string") {
                     keys = [keys];
                 }
-                try {
-                    for (var keys_1 = __values(keys), keys_1_1 = keys_1.next(); !keys_1_1.done; keys_1_1 = keys_1.next()) {
-                        var ky = keys_1_1.value;
-                        var value = function (k, Default) {
-                            switch (k) {
-                                default:
-                                    if ($(m[k]).text() !== "") {
-                                        return $(m[k]).text().trim().replace("Not provided", "");
-                                    }
-                            }
-                            return Default;
-                        };
-                        data[key] = value(ky, data[key]);
-                        if (data[key] !== undefined && data[key] !== null && data[key] != "") {
-                            break;
+                for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+                    var ky = keys_1[_i];
+                    var value = function (k, Default) {
+                        switch (k) {
+                            default:
+                                if ($(m[k]).text() !== "") {
+                                    return $(m[k]).text().trim().replace("Not provided", "");
+                                }
                         }
+                        return Default;
+                    };
+                    data[key] = value(ky, data[key]);
+                    if (data[key] !== undefined && data[key] !== null && data[key] != "") {
+                        break;
                     }
-                }
-                catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                finally {
-                    try {
-                        if (keys_1_1 && !keys_1_1.done && (_a = keys_1["return"])) _a.call(keys_1);
-                    }
-                    finally { if (e_1) throw e_1.error; }
                 }
             }
             catch (e) {
@@ -144,9 +124,9 @@ var scrapePage = function (m, callback) {
  */
 function Search(opts) {
     return __awaiter(this, void 0, void 0, function () {
-        var e_2, _a, n, results, url, tab, e_3, tmpResults, i, e_4, e_5, e_6, print, results_1, results_1_1, link;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var n, results, url, tab, e_1, tmpResults, i, e_2, e_3, e_4, print, _i, results_1, link;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     if (opts.entry === null) {
                         return [2 /*return*/, null];
@@ -158,23 +138,23 @@ function Search(opts) {
                     results = new Array();
                     return [4 /*yield*/, funcs_1.nick.newTab()];
                 case 1:
-                    tab = _b.sent();
+                    tab = _a.sent();
                     if (typeof opts.entry === "string") {
                         url = opts.entry;
                     }
                     else {
                         url = opts.entry.href;
                     }
-                    _b.label = 2;
+                    _a.label = 2;
                 case 2:
-                    _b.trys.push([2, 4, , 5]);
+                    _a.trys.push([2, 4, , 5]);
                     return [4 /*yield*/, tab.open(url)];
                 case 3:
-                    _b.sent();
+                    _a.sent();
                     return [3 /*break*/, 5];
                 case 4:
-                    e_3 = _b.sent();
-                    funcs_1.HandleError(e_3);
+                    e_1 = _a.sent();
+                    funcs_1.HandleError(e_1);
                     return [3 /*break*/, 5];
                 case 5:
                     if (opts.next === undefined && n > 1) {
@@ -187,50 +167,50 @@ function Search(opts) {
                         n = 1;
                     }
                     i = 0;
-                    _b.label = 6;
+                    _a.label = 6;
                 case 6:
                     if (!(i < n)) return [3 /*break*/, 19];
                     if (!(i > 0)) return [3 /*break*/, 11];
-                    _b.label = 7;
+                    _a.label = 7;
                 case 7:
-                    _b.trys.push([7, 10, , 11]);
+                    _a.trys.push([7, 10, , 11]);
                     funcs_1.console.debug("Wait for 'Next Page' button to be visible...");
                     // "Next Page" Button/link.
                     return [4 /*yield*/, tab.untilVisible(opts.next)];
                 case 8:
                     // "Next Page" Button/link.
-                    _b.sent();
+                    _a.sent();
                     funcs_1.console.debug("'Next Page' button found!");
                     return [4 /*yield*/, tab.click(opts.next)];
                 case 9:
-                    _b.sent();
+                    _a.sent();
                     funcs_1.console.debug("button clicked!");
                     return [3 /*break*/, 11];
                 case 10:
-                    e_4 = _b.sent();
-                    funcs_1.HandleError(e_4);
+                    e_2 = _a.sent();
+                    funcs_1.HandleError(e_2);
                     return [3 /*break*/, 11];
                 case 11:
-                    _b.trys.push([11, 14, , 15]);
+                    _a.trys.push([11, 14, , 15]);
                     return [4 /*yield*/, tab.untilVisible(opts.result)];
                 case 12:
-                    _b.sent();
+                    _a.sent();
                     funcs_1.console.debug("Injecting JQuery...");
                     return [4 /*yield*/, tab.inject("./node_modules/jquery/dist/jquery.min.js")];
                 case 13:
-                    _b.sent(); // We're going to use jQuery to scrape
+                    _a.sent(); // We're going to use jQuery to scrape
                     funcs_1.console.debug("JQuery injected!");
                     return [3 /*break*/, 15];
                 case 14:
-                    e_5 = _b.sent();
-                    funcs_1.HandleError(e_5);
+                    e_3 = _a.sent();
+                    funcs_1.HandleError(e_3);
                     return [3 /*break*/, 15];
                 case 15:
-                    _b.trys.push([15, 17, , 18]);
+                    _a.trys.push([15, 17, , 18]);
                     funcs_1.console.debug("Evaluating page...");
                     return [4 /*yield*/, tab.evaluate(opts, scrapeResult)];
                 case 16:
-                    tmpResults = _b.sent();
+                    tmpResults = _a.sent();
                     funcs_1.console.debug(tmpResults.length + " results.");
                     tmpResults.forEach(function (result) {
                         results.push(new URL(result));
@@ -238,26 +218,17 @@ function Search(opts) {
                     funcs_1.console.debug("page evaluated!");
                     return [3 /*break*/, 18];
                 case 17:
-                    e_6 = _b.sent();
-                    funcs_1.HandleError(e_6);
+                    e_4 = _a.sent();
+                    funcs_1.HandleError(e_4);
                     return [3 /*break*/, 18];
                 case 18:
                     i++;
                     return [3 /*break*/, 6];
                 case 19:
                     print = [];
-                    try {
-                        for (results_1 = __values(results), results_1_1 = results_1.next(); !results_1_1.done; results_1_1 = results_1.next()) {
-                            link = results_1_1.value;
-                            print.push(link.href);
-                        }
-                    }
-                    catch (e_2_1) { e_2 = { error: e_2_1 }; }
-                    finally {
-                        try {
-                            if (results_1_1 && !results_1_1.done && (_a = results_1["return"])) _a.call(results_1);
-                        }
-                        finally { if (e_2) throw e_2.error; }
+                    for (_i = 0, results_1 = results; _i < results_1.length; _i++) {
+                        link = results_1[_i];
+                        print.push(link.href);
                     }
                     // const path = "./links.json";
                     // await fs.writeFile(path, JSON.stringify(print, null, 2));
@@ -270,16 +241,16 @@ function Search(opts) {
 exports.Search = Search;
 function SearchResults(opts) {
     return __awaiter(this, void 0, void 0, function () {
-        var e_7, _a, ret, results, result, urls, bar, urls_1, urls_1_1, url, e_7_1, e_8;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var ret, results, result, urls, bar, _i, urls_1, url, e_5;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    _b.trys.push([0, 10, , 11]);
+                    _a.trys.push([0, 6, , 7]);
                     results = new Array();
                     result = void 0;
                     return [4 /*yield*/, Search(opts.search)];
                 case 1:
-                    urls = _b.sent();
+                    urls = _a.sent();
                     if (typeof opts.search.entry === "string") {
                         opts.search.entry = new URL(opts.search.entry);
                     }
@@ -288,43 +259,29 @@ function SearchResults(opts) {
                         total: urls.length
                     });
                     bar.render();
-                    _b.label = 2;
+                    _i = 0, urls_1 = urls;
+                    _a.label = 2;
                 case 2:
-                    _b.trys.push([2, 7, 8, 9]);
-                    urls_1 = __values(urls), urls_1_1 = urls_1.next();
-                    _b.label = 3;
-                case 3:
-                    if (!!urls_1_1.done) return [3 /*break*/, 6];
-                    url = urls_1_1.value;
+                    if (!(_i < urls_1.length)) return [3 /*break*/, 5];
+                    url = urls_1[_i];
                     return [4 /*yield*/, funcs_1.visit(url, scrapePage, opts.result)];
-                case 4:
-                    result = _b.sent();
+                case 3:
+                    result = _a.sent();
                     results.push(result);
                     bar.tick();
-                    _b.label = 5;
+                    _a.label = 4;
+                case 4:
+                    _i++;
+                    return [3 /*break*/, 2];
                 case 5:
-                    urls_1_1 = urls_1.next();
-                    return [3 /*break*/, 3];
-                case 6: return [3 /*break*/, 9];
-                case 7:
-                    e_7_1 = _b.sent();
-                    e_7 = { error: e_7_1 };
-                    return [3 /*break*/, 9];
-                case 8:
-                    try {
-                        if (urls_1_1 && !urls_1_1.done && (_a = urls_1["return"])) _a.call(urls_1);
-                    }
-                    finally { if (e_7) throw e_7.error; }
-                    return [7 /*endfinally*/];
-                case 9:
                     ret = results;
-                    return [3 /*break*/, 11];
-                case 10:
-                    e_8 = _b.sent();
-                    funcs_1.HandleError(e_8);
-                    ret = e_8;
-                    return [3 /*break*/, 11];
-                case 11: return [2 /*return*/, ret];
+                    return [3 /*break*/, 7];
+                case 6:
+                    e_5 = _a.sent();
+                    funcs_1.HandleError(e_5);
+                    ret = e_5;
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/, ret];
             }
         });
     });

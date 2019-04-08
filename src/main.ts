@@ -14,7 +14,8 @@ export async function main(): Promise<Car[] | Error> {
             total: sites.length,
         });
         bar.render({ site: sites[0].search.entry });
-        for (const [i, site] of sites.entries()) {
+        for (let i = 0; i < sites.length; i++) {
+            const site = sites[i];
             const results = await SearchResults(site);
             if (!(results instanceof Error)) {
                 const car = new Car(results);

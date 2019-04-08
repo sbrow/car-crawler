@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-        "noEmitOnError": false,
-        "downlevelIteration": true,
         "types": [
             "jquery",
             "node",

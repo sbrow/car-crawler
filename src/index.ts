@@ -14,14 +14,14 @@
 //     vin?: JQuery.Selector;
 // }
 
-type Selectors = { [name: string]: JQuery.Selector | JQuery.Selector[] } | JQuery.Selector[];
+export type Selectors = { [name: string]: JQuery.Selector | JQuery.Selector[] } | JQuery.Selector[];
 /**
  * Pairs a JQuery Selector and a template url,
  * to be combined into full url to be further scraped.
  *
  * @interface ResultsPage
  */
-interface ResultsPage {
+export interface ResultsPage {
     /** Matches search results */
     result: JQuery.Selector;
     /** A template string  */
@@ -33,7 +33,7 @@ interface ResultsPage {
  *
  * @interface Page
  */
-interface Page {
+export interface Page {
     /**
      * A map of strings to HTML elements.
      * Provides a template for the objects
@@ -52,7 +52,7 @@ interface Page {
  * @interface SearchOptions
  * @extends {ResultsPage}
  */
-interface SearchOptions extends ResultsPage {
+export interface SearchOptions extends ResultsPage {
     /** Where to begin the search. */
     entry: URL | string;
     /** The next page button/link. */
@@ -66,7 +66,7 @@ interface SearchOptions extends ResultsPage {
  *
  * @see SearchResults
  */
-interface SearchResultOptions {
+export interface SearchResultOptions {
     search: SearchOptions;
     result: Page;
 }
