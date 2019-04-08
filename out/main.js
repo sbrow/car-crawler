@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -40,9 +51,9 @@ var car_1 = require("./car");
 var funcs_1 = require("./funcs");
 var search_1 = require("./search");
 var sites_1 = require("./sites");
-function main() {
+function main(db, collection) {
     return __awaiter(this, void 0, void 0, function () {
-        var exitCode, cars, bar, i, site, results, _i, results_1, result, car, e_1;
+        var exitCode, bar, i, site, results, _i, results_1, result, car, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -50,7 +61,6 @@ function main() {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 6, , 7]);
-                    cars = new Array();
                     bar = new ProgressBar("Finding cars from \":site\" :current/:total [:bar] (:percent)\r\n", {
                         head: "+",
                         total: sites_1.sites.length
@@ -69,7 +79,7 @@ function main() {
                             result = results_1[_i];
                             car = new car_1.Car(result);
                             funcs_1.console.info("Pushing " + JSON.stringify(car));
-                            cars.push(car);
+                            db.collection(collection).updateOne(car, { $set: __assign({}, car) }, { upsert: true });
                         }
                     }
                     bar.tick({ site: sites_1.sites[i + 1].search.entry });
@@ -77,11 +87,7 @@ function main() {
                 case 4:
                     i++;
                     return [3 /*break*/, 2];
-                case 5: 
-                // const path = "./cars.json";
-                // await fs.writeFile(path, JSON.stringify({ aaData: cars }, null, 2));
-                // console.info(`Results saved to ${path}`);
-                return [2 /*return*/, cars];
+                case 5: return [3 /*break*/, 7];
                 case 6:
                     e_1 = _a.sent();
                     funcs_1.HandleError(e_1);
