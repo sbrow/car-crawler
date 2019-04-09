@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
-var zip = "14850";
-var radius = "20"; // miles
+var zip = process.env.ZIP || "14850";
+var radius = process.env.RADIUS || "20"; // miles
 /**
  * DOM Mappings for AutoTrader.com
  */

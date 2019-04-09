@@ -1,7 +1,7 @@
 import { SearchResultOptions } from "./index";
 
-const zip = "14850";
-const radius = "20"; // miles
+const zip = process.env.ZIP || "14850";
+const radius = process.env.RADIUS || "20"; // miles
 
 /**
  * DOM Mappings for AutoTrader.com

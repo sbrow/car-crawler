@@ -2,7 +2,7 @@
   "name": "crawler",
   "version": "1.0.5",
   "description": "",
-  "main": "./out/main.js",
+  "main": "./out/package.js",
   "scripts": {
     "test": "ts-mocha src/test.spec.ts",
     "start": "ts-node src/test.spec.ts",
