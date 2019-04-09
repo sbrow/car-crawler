@@ -48,11 +48,12 @@ exports.console = winston_1.createLogger({
     transports: [new winston_1.transports.Console()]
 });
 exports.nick = new Nick({
+    headless: true,
     loadImages: false,
     printPageErrors: false,
-    // headless: false,
     userAgent: "Mozilla/5.0"
 });
+var tab;
 function HandleError(e) {
     exports.console.warn("" + e);
 }
@@ -143,18 +144,19 @@ function visit(url, scraper) {
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 17, , 18]);
-                    if (!(exports.tab === null || exports.tab === undefined)) return [3 /*break*/, 3];
+                    if (!(tab === null || tab === undefined)) return [3 /*break*/, 3];
                     return [4 /*yield*/, exports.nick.newTab()];
                 case 2:
-                    exports.tab = _b.sent();
+                    // console.debug(`nick/tab: ${JSON.stringify({ nick, tab })}`);
+                    tab = _b.sent();
                     _b.label = 3;
                 case 3:
                     if (!(wait > 0)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, exports.tab.wait(wait)];
+                    return [4 /*yield*/, tab.wait(wait)];
                 case 4:
                     _b.sent();
                     _b.label = 5;
-                case 5: return [4 /*yield*/, exports.tab.open(url.href)];
+                case 5: return [4 /*yield*/, tab.open(url.href)];
                 case 6:
                     _b.sent();
                     ret = void 0;
@@ -170,24 +172,24 @@ function visit(url, scraper) {
                     _b.label = 8;
                 case 8:
                     _b.trys.push([8, 10, , 11]);
-                    return [4 /*yield*/, exports.tab.untilVisible(elem)];
+                    return [4 /*yield*/, tab.untilVisible(elem)];
                 case 9:
                     _b.sent(); // Make sure we have loaded the page.
                     exports.console.debug("Found!");
                     return [3 /*break*/, 11];
                 case 10:
                     e_1 = _b.sent();
-                    exports.console.error(e_1);
+                    exports.console.error("; @visit\" " + e_1);
                     return [3 /*break*/, 11];
                 case 11:
                     _a++;
                     return [3 /*break*/, 7];
                 case 12:
                     _b.trys.push([12, 15, , 16]);
-                    return [4 /*yield*/, exports.tab.inject("http://code.jquery.com/jquery-3.2.1.min.js")];
+                    return [4 /*yield*/, tab.inject("http://code.jquery.com/jquery-3.2.1.min.js")];
                 case 13:
                     _b.sent(); // We're going to use jQuery to scrape
-                    return [4 /*yield*/, exports.tab.evaluate(scraper, selectors)];
+                    return [4 /*yield*/, tab.evaluate(scraper, selectors)];
                 case 14:
                     data = _b.sent();
                     exports.console.debug("data: " + JSON.stringify(data));
@@ -195,13 +197,13 @@ function visit(url, scraper) {
                     return [3 /*break*/, 16];
                 case 15:
                     e_2 = _b.sent();
-                    exports.console.error(e_2);
+                    exports.console.error("@inject " + e_2);
                     ret = e_2;
                     return [3 /*break*/, 16];
                 case 16: return [2 /*return*/, ret];
                 case 17:
                     e_3 = _b.sent();
-                    exports.console.error(e_3);
+                    exports.console.error("@3 " + e_3);
                     return [3 /*break*/, 18];
                 case 18: return [3 /*break*/, 20];
                 case 19:

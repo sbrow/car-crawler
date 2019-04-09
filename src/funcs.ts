@@ -16,14 +16,14 @@ export const console = createLogger({
     transports: [new transports.Console()],
 });
 
-export const nick = new Nick({
+export const nick: Nick = new Nick({
+    headless: true,
     loadImages: false,
     printPageErrors: false,
-    // headless: false,
     userAgent: "Mozilla/5.0",
 });
 
-export let tab: null | Tab;
+let tab: null | Tab;
 
 export function HandleError(e: Error) {
     console.warn(`${e}`);
@@ -112,6 +112,7 @@ export async function visit(url: URL | string, scraper: Scraper, ...opts: any): 
         }
         try {
             if (tab === null || tab === undefined) {
+                // console.debug(`nick/tab: ${JSON.stringify({ nick, tab })}`);
                 tab = await nick.newTab();
             }
             if (wait > 0) {
@@ -128,7 +129,7 @@ export async function visit(url: URL | string, scraper: Scraper, ...opts: any): 
                         await tab.untilVisible(elem); // Make sure we have loaded the page.
                         console.debug("Found!");
                     } catch (e) {
-                        console.error(e);
+                        console.error(`; @visit" ${e}`);
                         // await tab.open(url.href);
                         // await fs.writeFile("./page.html", await tab.getContent());
                     }
@@ -139,13 +140,13 @@ export async function visit(url: URL | string, scraper: Scraper, ...opts: any): 
                     console.debug(`data: ${JSON.stringify(data)}`);
                     ret = data;
                 } catch (e) {
-                    console.error(e);
+                    console.error(`@inject ${e}`);
                     ret = e;
                 }
             }
             return ret;
         } catch (e) {
-            console.error(e);
+            console.error(`@3 ${e}`);
         }
     } catch (e) {
         console.error(e.stack);

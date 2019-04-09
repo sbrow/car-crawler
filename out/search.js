@@ -125,7 +125,7 @@ exports.scrapePage = function (m, callback) {
  */
 function Search(opts) {
     return __awaiter(this, void 0, void 0, function () {
-        var n, results, url, tab, e_1, tmpResults, i, e_2, e_3, e_4, print, _i, results_1, link;
+        var n, results, url, tab, e_1, tmpResults, i, e_2, e_3, e_4, print_1, _i, results_1, link, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -140,24 +140,27 @@ function Search(opts) {
                     return [4 /*yield*/, funcs_1.nick.newTab()];
                 case 1:
                     tab = _a.sent();
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, 21, 22, 23]);
                     if (typeof opts.entry === "string") {
                         url = opts.entry;
                     }
                     else {
                         url = opts.entry.href;
                     }
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, tab.open(url)];
+                    _a.label = 3;
                 case 3:
-                    _a.sent();
-                    return [3 /*break*/, 5];
+                    _a.trys.push([3, 5, , 6]);
+                    return [4 /*yield*/, tab.open(url)];
                 case 4:
+                    _a.sent();
+                    return [3 /*break*/, 6];
+                case 5:
                     e_1 = _a.sent();
                     funcs_1.HandleError(e_1);
-                    return [3 /*break*/, 5];
-                case 5:
+                    return [3 /*break*/, 6];
+                case 6:
                     if (opts.next === undefined && n > 1) {
                         try {
                             throw Error("Can't search more than one page, selector 'next' was not provided.");
@@ -167,74 +170,80 @@ function Search(opts) {
                         }
                         n = 1;
                     }
+                    tmpResults = void 0;
                     i = 0;
-                    _a.label = 6;
-                case 6:
-                    if (!(i < n)) return [3 /*break*/, 19];
-                    if (!(i > 0)) return [3 /*break*/, 11];
                     _a.label = 7;
                 case 7:
-                    _a.trys.push([7, 10, , 11]);
+                    if (!(i < n)) return [3 /*break*/, 20];
+                    if (!(i > 0)) return [3 /*break*/, 12];
+                    _a.label = 8;
+                case 8:
+                    _a.trys.push([8, 11, , 12]);
                     funcs_1.console.debug("Wait for 'Next Page' button to be visible...");
                     // "Next Page" Button/link.
                     return [4 /*yield*/, tab.untilVisible(opts.next)];
-                case 8:
+                case 9:
                     // "Next Page" Button/link.
                     _a.sent();
                     funcs_1.console.debug("'Next Page' button found!");
                     return [4 /*yield*/, tab.click(opts.next)];
-                case 9:
+                case 10:
                     _a.sent();
                     funcs_1.console.debug("button clicked!");
-                    return [3 /*break*/, 11];
-                case 10:
+                    return [3 /*break*/, 12];
+                case 11:
                     e_2 = _a.sent();
                     funcs_1.HandleError(e_2);
-                    return [3 /*break*/, 11];
-                case 11:
-                    _a.trys.push([11, 14, , 15]);
-                    return [4 /*yield*/, tab.untilVisible(opts.result)];
+                    return [3 /*break*/, 12];
                 case 12:
+                    _a.trys.push([12, 15, , 16]);
+                    return [4 /*yield*/, tab.untilVisible(opts.result)];
+                case 13:
                     _a.sent();
                     funcs_1.console.debug("Injecting JQuery...");
                     return [4 /*yield*/, tab.inject("./node_modules/jquery/dist/jquery.min.js")];
-                case 13:
+                case 14:
                     _a.sent(); // We're going to use jQuery to scrape
                     funcs_1.console.debug("JQuery injected!");
-                    return [3 /*break*/, 15];
-                case 14:
+                    return [3 /*break*/, 16];
+                case 15:
                     e_3 = _a.sent();
                     funcs_1.HandleError(e_3);
-                    return [3 /*break*/, 15];
-                case 15:
-                    _a.trys.push([15, 17, , 18]);
+                    return [3 /*break*/, 16];
+                case 16:
+                    _a.trys.push([16, 18, , 19]);
                     funcs_1.console.debug("Evaluating page...");
                     return [4 /*yield*/, tab.evaluate(opts, scrapeResult)];
-                case 16:
+                case 17:
                     tmpResults = _a.sent();
                     funcs_1.console.debug(tmpResults.length + " results.");
                     tmpResults.forEach(function (result) {
                         results.push(new URL(result));
                     });
                     funcs_1.console.debug("page evaluated!");
-                    return [3 /*break*/, 18];
-                case 17:
+                    return [3 /*break*/, 19];
+                case 18:
                     e_4 = _a.sent();
                     funcs_1.HandleError(e_4);
-                    return [3 /*break*/, 18];
-                case 18:
-                    i++;
-                    return [3 /*break*/, 6];
+                    return [3 /*break*/, 19];
                 case 19:
-                    print = [];
+                    i++;
+                    return [3 /*break*/, 7];
+                case 20:
+                    print_1 = [];
                     for (_i = 0, results_1 = results; _i < results_1.length; _i++) {
                         link = results_1[_i];
-                        print.push(link.href);
+                        print_1.push(link.href);
                     }
-                    // const path = "./links.json";
-                    // await fs.writeFile(path, JSON.stringify(print, null, 2));
-                    // console.info(`Results saved to ${path}`);
-                    return [2 /*return*/, results];
+                    return [3 /*break*/, 23];
+                case 21:
+                    e_5 = _a.sent();
+                    funcs_1.HandleError(e_5);
+                    return [3 /*break*/, 23];
+                case 22:
+                    tab.close();
+                    return [7 /*endfinally*/];
+                case 23: return [2 /*return*/, results];
             }
         });
     });
@@ -242,7 +251,7 @@ function Search(opts) {
 exports.Search = Search;
 function SearchResults(opts) {
     return __awaiter(this, void 0, void 0, function () {
-        var ret, results, result, urls, bar, _i, urls_1, url, e_5;
+        var ret, results, result, urls, bar, _i, urls_1, url, e_6;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -279,9 +288,9 @@ function SearchResults(opts) {
                     ret = results;
                     return [3 /*break*/, 7];
                 case 6:
-                    e_5 = _a.sent();
-                    funcs_1.HandleError(e_5);
-                    ret = e_5;
+                    e_6 = _a.sent();
+                    funcs_1.HandleError(e_6);
+                    ret = e_6;
                     return [3 /*break*/, 7];
                 case 7: return [2 /*return*/, ret];
             }

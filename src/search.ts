@@ -100,70 +100,74 @@ export async function Search(opts: SearchOptions): Promise<URL[] | null> {
 
     const results: URL[] = new Array<URL>();
     let url: string;
-
     const tab = await nick.newTab();
-
-    if (typeof opts.entry === "string") {
-        url = opts.entry;
-    } else {
-        url = opts.entry.href;
-    }
     try {
-        await tab.open(url);
-    } catch (e) {
-        HandleError(e);
-    }
-
-    if (opts.next === undefined && n > 1) {
+        if (typeof opts.entry === "string") {
+            url = opts.entry;
+        } else {
+            url = opts.entry.href;
+        }
         try {
-            throw Error("Can't search more than one page, selector 'next' was not provided.");
+            await tab.open(url);
         } catch (e) {
             HandleError(e);
         }
-        n = 1;
-    }
 
-    let tmpResults: string[];
-    for (let i = 0; i < n; i++) {
-        if (i > 0) {
+        if (opts.next === undefined && n > 1) {
             try {
-                console.debug("Wait for 'Next Page' button to be visible...");
-                // "Next Page" Button/link.
-                await tab.untilVisible(opts.next);
-                console.debug("'Next Page' button found!");
-                await tab.click(opts.next);
-                console.debug("button clicked!");
+                throw Error("Can't search more than one page, selector 'next' was not provided.");
+            } catch (e) {
+                HandleError(e);
+            }
+            n = 1;
+        }
+
+        let tmpResults: string[];
+        for (let i = 0; i < n; i++) {
+            if (i > 0) {
+                try {
+                    console.debug("Wait for 'Next Page' button to be visible...");
+                    // "Next Page" Button/link.
+                    await tab.untilVisible(opts.next);
+                    console.debug("'Next Page' button found!");
+                    await tab.click(opts.next);
+                    console.debug("button clicked!");
+                } catch (e) {
+                    HandleError(e);
+                }
+            }
+            try {
+                await tab.untilVisible(opts.result);
+                console.debug("Injecting JQuery...");
+                await tab.inject("./node_modules/jquery/dist/jquery.min.js"); // We're going to use jQuery to scrape
+                console.debug("JQuery injected!");
+            } catch (e) {
+                HandleError(e);
+            }
+            try {
+                console.debug("Evaluating page...");
+                tmpResults = await tab.evaluate(opts, scrapeResult);
+                console.debug(`${tmpResults.length} results.`);
+                tmpResults.forEach((result) => {
+                    results.push(new URL(result));
+                });
+                console.debug("page evaluated!");
             } catch (e) {
                 HandleError(e);
             }
         }
-        try {
-            await tab.untilVisible(opts.result);
-            console.debug("Injecting JQuery...");
-            await tab.inject("./node_modules/jquery/dist/jquery.min.js"); // We're going to use jQuery to scrape
-            console.debug("JQuery injected!");
-        } catch (e) {
-            HandleError(e);
+        const print = [];
+        for (const link of results) {
+            print.push(link.href);
         }
-        try {
-            console.debug("Evaluating page...");
-            tmpResults = await tab.evaluate(opts, scrapeResult);
-            console.debug(`${tmpResults.length} results.`);
-            tmpResults.forEach((result) => {
-                results.push(new URL(result));
-            });
-            console.debug("page evaluated!");
-        } catch (e) {
-            HandleError(e);
-        }
+        // const path = "./links.json";
+        // await fs.writeFile(path, JSON.stringify(print, null, 2));
+        // console.info(`Results saved to ${path}`);
+    } catch (e) {
+        HandleError(e);
+    } finally {
+        tab.close();
     }
-    const print = [];
-    for (const link of results) {
-        print.push(link.href);
-    }
-    // const path = "./links.json";
-    // await fs.writeFile(path, JSON.stringify(print, null, 2));
-    // console.info(`Results saved to ${path}`);
     return results;
 }
 

@@ -46,54 +46,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var ProgressBar = require("progress");
 var car_1 = require("./car");
 var funcs_1 = require("./funcs");
 var search_1 = require("./search");
-var sites_1 = require("./sites");
-function main(db, collection) {
+function main(db, collection, site) {
     return __awaiter(this, void 0, void 0, function () {
-        var exitCode, bar, i, site, results, _i, results_1, result, car, e_1;
+        var exitCode, results, _i, results_1, result, car, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     exitCode = 0;
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 6, , 7]);
-                    bar = new ProgressBar("Finding cars from \":site\" :current/:total [:bar] (:percent)\r\n", {
-                        head: "+",
-                        total: sites_1.sites.length
-                    });
-                    bar.render({ site: sites_1.sites[0].search.entry });
-                    i = 0;
-                    _a.label = 2;
-                case 2:
-                    if (!(i < sites_1.sites.length)) return [3 /*break*/, 5];
-                    site = sites_1.sites[i];
+                    _a.trys.push([1, 3, 4, 6]);
                     return [4 /*yield*/, search_1.SearchResults(site)];
-                case 3:
+                case 2:
                     results = _a.sent();
                     if (!(results instanceof Error)) {
                         for (_i = 0, results_1 = results; _i < results_1.length; _i++) {
                             result = results_1[_i];
                             car = new car_1.Car(result);
-                            funcs_1.console.info("Pushing " + JSON.stringify(car));
+                            // console.info(`Pushing ${JSON.stringify(car)}`);
                             db.collection(collection).updateOne(car, { $set: __assign({}, car) }, { upsert: true });
                         }
                     }
-                    bar.tick({ site: sites_1.sites[i + 1].search.entry });
-                    _a.label = 4;
-                case 4:
-                    i++;
-                    return [3 /*break*/, 2];
-                case 5: return [3 /*break*/, 7];
-                case 6:
+                    return [3 /*break*/, 6];
+                case 3:
                     e_1 = _a.sent();
                     funcs_1.HandleError(e_1);
                     exitCode = 1;
                     return [2 /*return*/, e_1];
-                case 7: return [2 /*return*/];
+                case 4: return [4 /*yield*/, funcs_1.nick.deleteAllCookies()];
+                case 5:
+                    _a.sent();
+                    return [7 /*endfinally*/];
+                case 6: return [2 /*return*/];
             }
         });
     });

@@ -61,9 +61,8 @@ exports.CarFax = {
     },
     result: {
         elements: {
-            // exterior: `.infoTable-table > tbody > tr > th:contains(Exterior) +`,
-            exterior: ".infoTable-table > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2)",
-            interior: ".infoTable-table > tbody > tr > th:contains(Exterior) +",
+            exterior: ".infoTable-table > tbody > tr > th:contains(Exterior) +",
+            interior: ".infoTable-table > tbody > tr > th:contains(Interior) +",
             mileage: ".infoTable-table > tbody > tr > th:contains(Mileage) +",
             price: ".infoTable-table > tbody > tr > th:contains(Price) +",
             vin: ".infoTable-table > tbody > tr > th:contains(VIN) +"

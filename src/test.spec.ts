@@ -1,10 +1,12 @@
 /* tslint:disable only-arrow-functions */
 import * as assert from "assert";
 import * as mocha from "mocha";
+import * as mongodb from "mongodb";
 
-import { visit } from "./funcs";
-import { scrapePage } from "./search";
+import { nick } from "./funcs";
+import { main } from "./main";
 import { sites } from "./sites";
+/*
 describe("listings", function() {
     describe("#Scrape", function() {
         it("should contain: \"http\"", function() {
@@ -13,5 +15,13 @@ describe("listings", function() {
         });
     });
 });
+*/
 
-// main();
+(async () => {
+    const dbName = `heroku_dn9q80h5`;
+    const dbRoute = `mongodb://heroku_dn9q80h5:bqeqsamrl6mpv1um6mmbjj4u7u@ds149404.mlab.com:49404/${dbName}`;
+    const client = await mongodb.connect(dbRoute, { useNewUrlParser: true });
+    const db = await client.db(dbName);
+    await main(db, "cars", sites[1]);
+    nick.exit();
+})();
