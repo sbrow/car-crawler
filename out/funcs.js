@@ -35,6 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+if (process.env.CHROME_PATH === undefined) {
+    process.env.CHROME_PATH = process.env.npm_package_config_chrome_path;
+}
 var logform_1 = require("logform");
 var Nick = require("nickjs");
 var winston_1 = require("winston");
@@ -47,11 +50,16 @@ exports.console = winston_1.createLogger({
     level: level,
     transports: [new winston_1.transports.Console()]
 });
+var quiet = Boolean(process.env.npm_package_config_nickjs_quiet);
 exports.nick = new Nick({
     headless: true,
     loadImages: false,
-    printPageErrors: false,
-    userAgent: "Mozilla/5.0"
+    printNavigation: quiet,
+    printPageErrors: quiet,
+    printAborts: quiet,
+    userAgent: "Mozilla/5.0",
+    // whitelist: ["www.cars.com", "www.carfax.com", "www.cargurus.com"],
+    blacklist: ["www.facebook.com"]
 });
 var tab;
 function HandleError(e) {
@@ -108,6 +116,14 @@ exports.scrape = function (m, callback) {
     }
     callback(err, data);
 };
+/**
+ * Opens `url` in a new tab and scrapes it by calling `tab.evaluate(scraper(selectors));`.
+ * If `untilVisible` is supplied, visit will wait for the specified selector to load before scraping.
+ *
+ * @see Nick.Tab.evaluate
+ */
+// export function visit(url: URL | string, scraper: Scraper, selectors: Selectors, untilVisible?: JQuery.Selector | JQuery.Selector[], wait?: number): Promise<any>;
+// export function visit(url: URL | string, scraper: Scraper, opts: Page): Promise<any>;
 function visit(url, scraper) {
     var opts = [];
     for (var _i = 2; _i < arguments.length; _i++) {
@@ -186,7 +202,7 @@ function visit(url, scraper) {
                     return [3 /*break*/, 7];
                 case 12:
                     _b.trys.push([12, 15, , 16]);
-                    return [4 /*yield*/, tab.inject("http://code.jquery.com/jquery-3.2.1.min.js")];
+                    return [4 /*yield*/, tab.inject("./node_modules/jquery/dist/jquery.js")];
                 case 13:
                     _b.sent(); // We're going to use jQuery to scrape
                     return [4 /*yield*/, tab.evaluate(scraper, selectors)];

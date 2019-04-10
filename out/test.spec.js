@@ -34,41 +34,92 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
 exports.__esModule = true;
+/* tslint:disable only-arrow-functions */
+var assert = require("assert");
 var mongodb = require("mongodb");
 var funcs_1 = require("./funcs");
 var main_1 = require("./main");
+var search_1 = require("./search");
 var sites_1 = require("./sites");
-/*
-describe("listings", function() {
-    describe("#Scrape", function() {
-        it("should contain: \"http\"", function() {
-            visit("https://www.carfax.com/vehicle/WDDSJ4EB1HN424394", scrapePage, sites[1].result)
-                .then((res) => console.log(JSON.stringify(res)));
+function connect() {
+    return __awaiter(this, void 0, void 0, function () {
+        var dbName, dbRoute, client;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    dbName = "heroku_dn9q80h5";
+                    dbRoute = "mongodb://heroku_dn9q80h5:bqeqsamrl6mpv1um6mmbjj4u7u@ds149404.mlab.com:49404/" + dbName;
+                    return [4 /*yield*/, mongodb.connect(dbRoute, { useNewUrlParser: true })];
+                case 1:
+                    client = _a.sent();
+                    return [2 /*return*/, client.db(dbName)];
+            }
+        });
+    });
+}
+after(function () {
+    new Promise(function (resolve) { return setTimeout(resolve, 5000); })
+        .then(function (res) {
+        funcs_1.nick.exit(0);
+    });
+});
+describe("sites", function () {
+    describe("#Search", function () {
+        var totalPages = function (perPage) { return perPage * sites_1.pages; };
+        var tests = [
+            { site: "carfax", want: totalPages(25) },
+            { site: "cargurus", want: totalPages(19) },
+            { site: "cars", want: totalPages(100) },
+        ];
+        var _loop_1 = function (test_1) {
+            it("\"" + test_1.site + "\" should return " + test_1.want + " ", function () {
+                return __awaiter(this, void 0, void 0, function () {
+                    var got;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                this.timeout(15000);
+                                return [4 /*yield*/, search_1.Search(main_1.sites[test_1.site].search)];
+                            case 1:
+                                got = _a.sent();
+                                assert.strictEqual(test_1.want, got.length);
+                                return [2 /*return*/, got];
+                        }
+                    });
+                });
+            });
+        };
+        for (var _i = 0, tests_1 = tests; _i < tests_1.length; _i++) {
+            var test_1 = tests_1[_i];
+            _loop_1(test_1);
+        }
+    });
+    describe("#visit", function () {
+        it("should ...", function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var data;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.timeout(20000);
+                            return [4 /*yield*/, funcs_1.visit("https://www.cars.com/vehicledetail/detail/764313498/overview/", search_1.scrapePage, main_1.sites.cars.result)];
+                        case 1:
+                            data = _a.sent();
+                            console.log(data);
+                            return [2 /*return*/, data];
+                    }
+                });
+            });
         });
     });
 });
-*/
-(function () { return __awaiter(_this, void 0, void 0, function () {
-    var dbName, dbRoute, client, db;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                dbName = "heroku_dn9q80h5";
-                dbRoute = "mongodb://heroku_dn9q80h5:bqeqsamrl6mpv1um6mmbjj4u7u@ds149404.mlab.com:49404/" + dbName;
-                return [4 /*yield*/, mongodb.connect(dbRoute, { useNewUrlParser: true })];
-            case 1:
-                client = _a.sent();
-                return [4 /*yield*/, client.db(dbName)];
-            case 2:
-                db = _a.sent();
-                return [4 /*yield*/, main_1.main(db, "cars", sites_1.sites[1])];
-            case 3:
-                _a.sent();
-                funcs_1.nick.exit();
-                return [2 /*return*/];
-        }
-    });
-}); })();
+// describe("main", async function () {
+//     const db = await connect();
+//     for (const site of sites) {
+//         main(db, "cars", site)
+//             .then((res) => console.log(res));
+//     }
+//     nick.exit();
+// });;
 //# sourceMappingURL=test.spec.js.map

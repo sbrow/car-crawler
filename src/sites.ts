@@ -1,19 +1,19 @@
 import { SearchResultOptions } from "./index";
 
-const zip = "14850";
-const radius = "20"; // miles
+const zip = process.env.npm_package_config_zip || process.env.ZIP || "14850";
+const radius = process.env.npm_package_config_radius || process.env.RADIUS || "20"; // miles
+export const pages = Number(process.env.npm_package_config_pages || process.env.PAGES || "1");
 
 /**
  * DOM Mappings for AutoTrader.com
  */
 export const AutoTrader: SearchResultOptions = {
     search: {
-        // entry: new URL("https://www.autotrader.com/cars-for-sale/searchresults.xhtml?zip=14850"),
-        entry: new URL("https://www.autotrader.com/cars-for-sale/searchresults.xhtml?zip=14850"),
+        entry: new URL(`https://www.autotrader.com/cars-for-sale/searchresults.xhtml?zip=${zip}`),
         result: "div.inventory-listing",
         resultURL: "https://www.autotrader.com/cars-for-sale/vehicledetails.xhtml?listingId=$(id)",
         next: 'a[role="button" href="#"]',
-        numPages: 1,
+        numPages: pages,
     },
     result: {
         elements: {
@@ -31,22 +31,19 @@ export const AutoTrader: SearchResultOptions = {
 /** DOM Mappings for Cars.com */
 export let Cars: SearchResultOptions = {
     search: {
-        entry: new URL(`https://www.cars.com/for-sale/searchresults.action/?page=1&rd=75&searchSource=QUICK_FORM&zc=14850`),
+        entry: new URL(`https://www.cars.com/for-sale/searchresults.action/?perPage=100&page=1&rd=${radius}&searchSource=QUICK_FORM&zc=${zip}&sort=listed-newest`),
         result: 'a[id^="listing-"]',
         resultURL: "https://www.cars.com/vehicledetail/detail/$(id)/overview/",
         next: "a.button.next-page",
-        numPages: 2,
+        numPages: pages,
     },
     result: {
         elements: {
-            exterior: `.infoTable-table > tbody > tr > th:contains("Exterior Color") +`,
-            interior: `li.vdp-details-basics__item:contains(Interior Color) > span`,
-            mileage: `li.vdp-details-basics__item:contains(Mileage) > span`,
+            exterior: `.vdp-details-basics__list > li:contains(Exterior Color) > span`,
+            interior: `.vdp-details-basics__list > li:contains(Interior Color) > span`,
+            mileage: `.vdp-details-basics__list > li:contains(Mileage) > span`,
+            vin: `.vdp-details-basics__list > li:contains(VIN) > span`,
             price: [`.vehicle-info__price-display--dealer`, `.vehicle-info__price-display`],
-            seller_name: `.vdp-dealer-location > .vdp-dealer-info__title`,
-            seller_location: `.vdp-dealer-location > .vdp-dealer-info__address`,
-            seller_phone: `.vdp-dealer-contact__phoneStatic`,
-            vin: `li.vdp-details-basics__item:contains("VIN") > span`,
         },
         waitFor: [`div.vehicle-info__price`, `div.vdp-details-basics`],
     },
@@ -57,10 +54,11 @@ export let Cars: SearchResultOptions = {
  */
 export const CarFax: SearchResultOptions = {
     search: {
-        entry: new URL("https://www.carfax.com/Used-Sedans_bt7?zip=14850"),
+        entry: new URL(`https://www.carfax.com/Used-Sedans_bt7?zip=${zip}`),
         result: `article[id^="listing"]`,
         resultURL: "https://www.carfax.com/vehicle/$(data-vin)",
         next: `#react-app > div > div.spa-container > div > div > div > div.column.small-12.small-order-1.xxlarge-order-2 > div:nth-child(2) > div.column.small-12.medium-12.large-12.xxlarge-8.xxxlarge-9.results-col > div:nth-child(3) > div.column.no-padding-left > ul > li.next > a`,
+        numPages: pages,
     },
     result: {
         elements: {
@@ -68,7 +66,9 @@ export const CarFax: SearchResultOptions = {
             interior: `.infoTable-table > tbody > tr > th:contains(Interior) +`,
             mileage: `.infoTable-table > tbody > tr > th:contains(Mileage) +`,
             price: `.infoTable-table > tbody > tr > th:contains(Price) +`,
+            // date: `table.price-history-table > tbody > tr:nth-child(2) > td.date`,
             vin: `.infoTable-table > tbody > tr > th:contains(VIN) +`,
+            // .infoTable-table > tbody:nth-child(1) > tr:nth-child(12) > th:nth-child(1)
         },
         waitFor: `.infoTable-table`,
     },
@@ -78,11 +78,11 @@ export const CarFax: SearchResultOptions = {
  */
 export const CarGuru: SearchResultOptions = {
     search: {
-        entry: new URL("https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#resultsPage=1"),
+        entry: new URL(`https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=${zip}#resultsPage=1`),
         result: 'div[id*="listing_"]',
         resultURL: "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?#listing=$(id)",
         next: "div.cg-listingSearch-pagingPanel:nth-child(1) > a:nth-child(4)",
-        numPages: 1,
+        numPages: pages,
     },
     result: {
         elements: {
@@ -96,7 +96,12 @@ export const CarGuru: SearchResultOptions = {
     },
 };
 
-export const sites = [Cars, CarFax, CarGuru, AutoTrader];
-// export const sites = [Cars, CarFax, CarGuru];
+export const sites = {
+    autotrader: AutoTrader,
+    carfax: CarFax,
+    cargurus: CarGuru,
+    cars: Cars,
+};
+// export const sites = [CarGuru];
 
 // export const sites = [Cars];

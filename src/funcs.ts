@@ -1,3 +1,6 @@
+if (process.env.CHROME_PATH === undefined) {
+    process.env.CHROME_PATH = process.env.npm_package_config_chrome_path;
+}
 import { promises as fs } from "fs";
 import { format } from "logform";
 import * as Nick from "nickjs";
@@ -16,11 +19,17 @@ export const console = createLogger({
     transports: [new transports.Console()],
 });
 
+const quiet = Boolean(process.env.npm_package_config_nickjs_quiet);
+
 export const nick: Nick = new Nick({
     headless: true,
     loadImages: false,
-    printPageErrors: false,
+    printNavigation: quiet,
+    printPageErrors: quiet,
+    printAborts: quiet,
     userAgent: "Mozilla/5.0",
+    // whitelist: ["www.cars.com", "www.carfax.com", "www.cargurus.com"],
+    blacklist: ["www.facebook.com"],
 });
 
 let tab: null | Tab;
@@ -135,7 +144,7 @@ export async function visit(url: URL | string, scraper: Scraper, ...opts: any): 
                     }
                 }
                 try {
-                    await tab.inject("http://code.jquery.com/jquery-3.2.1.min.js"); // We're going to use jQuery to scrape
+                    await tab.inject("./node_modules/jquery/dist/jquery.js"); // We're going to use jQuery to scrape
                     const data = await tab.evaluate(scraper, selectors);
                     console.debug(`data: ${JSON.stringify(data)}`);
                     ret = data;

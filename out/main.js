@@ -49,6 +49,7 @@ exports.__esModule = true;
 var car_1 = require("./car");
 var funcs_1 = require("./funcs");
 var search_1 = require("./search");
+var sites_1 = require("./sites");
 function main(db, collection, site) {
     return __awaiter(this, void 0, void 0, function () {
         var exitCode, results, _i, results_1, result, car, e_1;
@@ -87,4 +88,5 @@ function main(db, collection, site) {
 }
 exports.main = main;
 // main();
+exports.sites = sites_1.sites;
 //# sourceMappingURL=main.js.map

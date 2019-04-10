@@ -84,36 +84,32 @@ exports.scrapePage = function (m, callback) {
         link: "<a href=\"" + $(location).attr("href") + "\">" + document.location.host + "</a>",
         seller: ""
     };
-    for (var key in m) {
-        if (m.hasOwnProperty(key)) {
-            try {
-                var keys = m[key];
-                if (typeof keys === "string") {
-                    keys = [keys];
-                }
-                for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
-                    var ky = keys_1[_i];
-                    var value = function (k, Default) {
-                        switch (k) {
-                            default:
-                                if ($(m[k]).text() !== "") {
-                                    return $(m[k]).text().trim().replace("Not provided", "");
-                                }
+    try {
+        for (var key in m) {
+            if (m.hasOwnProperty(key)) {
+                try {
+                    var keys = (typeof m[key] === "string") ? [m[key]] : m[key];
+                    for (var i = 0; i < keys.length; i++) {
+                        var k = keys[i];
+                        try {
+                            data[key] = $(k).text().trim();
+                            if (data[key] !== undefined && data[key] !== null && data[key] != "") {
+                                break;
+                            }
                         }
-                        return Default;
-                    };
-                    // data[key] = value(ky, data[key]);
-                    data[key] = $(m[key]).text().trim();
-                    if (data[key] !== undefined && data[key] !== null && data[key] != "") {
-                        break;
+                        catch (e) {
+                            err = e;
+                        }
                     }
                 }
-            }
-            catch (e) {
-                funcs_1.HandleError(e);
-                err = String(e);
+                catch (e) {
+                    err = String(e);
+                }
             }
         }
+    }
+    catch (e) {
+        err = e;
     }
     callback(err, data);
 };
@@ -179,17 +175,17 @@ function Search(opts) {
                     _a.label = 8;
                 case 8:
                     _a.trys.push([8, 11, , 12]);
-                    funcs_1.console.debug("Wait for 'Next Page' button to be visible...");
+                    console.debug("Wait for 'Next Page' button to be visible...");
                     // "Next Page" Button/link.
                     return [4 /*yield*/, tab.untilVisible(opts.next)];
                 case 9:
                     // "Next Page" Button/link.
                     _a.sent();
-                    funcs_1.console.debug("'Next Page' button found!");
+                    console.debug("'Next Page' button found!");
                     return [4 /*yield*/, tab.click(opts.next)];
                 case 10:
                     _a.sent();
-                    funcs_1.console.debug("button clicked!");
+                    console.debug("button clicked!");
                     return [3 /*break*/, 12];
                 case 11:
                     e_2 = _a.sent();
@@ -200,11 +196,11 @@ function Search(opts) {
                     return [4 /*yield*/, tab.untilVisible(opts.result)];
                 case 13:
                     _a.sent();
-                    funcs_1.console.debug("Injecting JQuery...");
+                    console.debug("Injecting JQuery...");
                     return [4 /*yield*/, tab.inject("./node_modules/jquery/dist/jquery.min.js")];
                 case 14:
                     _a.sent(); // We're going to use jQuery to scrape
-                    funcs_1.console.debug("JQuery injected!");
+                    console.debug("JQuery injected!");
                     return [3 /*break*/, 16];
                 case 15:
                     e_3 = _a.sent();
@@ -212,15 +208,15 @@ function Search(opts) {
                     return [3 /*break*/, 16];
                 case 16:
                     _a.trys.push([16, 18, , 19]);
-                    funcs_1.console.debug("Evaluating page...");
+                    console.debug("Evaluating page...");
                     return [4 /*yield*/, tab.evaluate(opts, scrapeResult)];
                 case 17:
                     tmpResults = _a.sent();
-                    funcs_1.console.debug(tmpResults.length + " results.");
+                    console.debug(tmpResults.length + " results.");
                     tmpResults.forEach(function (result) {
                         results.push(new URL(result));
                     });
-                    funcs_1.console.debug("page evaluated!");
+                    console.debug("page evaluated!");
                     return [3 /*break*/, 19];
                 case 18:
                     e_4 = _a.sent();
@@ -277,7 +273,7 @@ function SearchResults(opts) {
                     return [4 /*yield*/, funcs_1.visit(url, exports.scrapePage, opts.result)];
                 case 3:
                     result = _a.sent();
-                    funcs_1.console.debug("visit(" + url + ", scrapePage, " + JSON.stringify(opts.result) + ") result " + JSON.stringify(result));
+                    console.debug("visit(" + url + ", scrapePage, " + JSON.stringify(opts.result) + ") result " + JSON.stringify(result));
                     results.push(result);
                     bar.tick();
                     _a.label = 4;

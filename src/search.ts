@@ -1,6 +1,6 @@
 import * as ProgressBar from "progress";
 
-import { console, HandleError, nick, visit } from "./funcs";
+import { HandleError, nick, visit } from "./funcs";
 import { Callback, Page, ResultsPage, Scraper, SearchOptions, SearchResultOptions } from "./index";
 
 /**
@@ -11,7 +11,7 @@ const scrapeResult: Scraper = (selectors: ResultsPage, callback: Callback): any 
     const newListings: string[] = [];
 
     try {
-        $(selectors.result).each(function() {
+        $(selectors.result).each(function () {
             const reg = /(\$\()(.*)(\))/;
             let attr: string = selectors.resultURL.match(reg)[2];
             attr = $(this).attr(attr);
@@ -50,34 +50,29 @@ export const scrapePage: Scraper = (m: Page, callback: Callback): any => {
         link: `<a href="${$(location).attr("href")}">${document.location.host}</a>`,
         seller: "",
     };
-    for (const key in m) {
-        if (m.hasOwnProperty(key)) {
-            try {
-                let keys = m[key];
-                if (typeof keys === "string") {
-                    keys = [keys];
-                }
-                for (const ky of keys) {
-                    const value = (k, Default) => {
-                        switch (k) {
-                            default:
-                                if ($(m[k]).text() !== "") {
-                                    return $(m[k]).text().trim().replace("Not provided", "");
-                                }
+    try {
+        for (const key in m) {
+            if (m.hasOwnProperty(key)) {
+                try {
+                    const keys = (typeof m[key] === "string") ? [m[key]] : m[key];
+                    for (let i = 0; i < keys.length; i++) {
+                        const k = keys[i];
+                        try {
+                            data[key] = $(k).text().trim();
+                            if (data[key] !== undefined && data[key] !== null && data[key] != "") {
+                                break;
+                            }
+                        } catch (e) {
+                            err = e;
                         }
-                        return Default;
-                    };
-                    // data[key] = value(ky, data[key]);
-                    data[key] = $(m[key]).text().trim();
-                    if (data[key] !== undefined && data[key] !== null && data[key] != "") {
-                        break;
                     }
+                } catch (e) {
+                    err = String(e);
                 }
-            } catch (e) {
-                HandleError(e);
-                err = String(e);
             }
         }
+    } catch (e) {
+        err = e;
     }
     callback(err, data);
 };

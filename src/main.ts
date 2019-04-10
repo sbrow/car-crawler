@@ -5,7 +5,7 @@ import { SearchResultOptions } from ".";
 import { Car } from "./car";
 import { HandleError, nick } from "./funcs";
 import { SearchResults } from "./search";
-import { sites } from "./sites";
+import { sites as websites } from "./sites";
 
 export async function main(db: Db, collection: string, site: SearchResultOptions): Promise<Car[] | Error> {
     let exitCode: number = 0;
@@ -42,3 +42,5 @@ export async function main(db: Db, collection: string, site: SearchResultOptions
     }
 }
 // main();
+
+export const sites = websites;
