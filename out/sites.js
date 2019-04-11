@@ -2,7 +2,10 @@
 exports.__esModule = true;
 var zip = process.env.npm_package_config_zip || process.env.ZIP || "14850";
 var radius = process.env.npm_package_config_radius || process.env.RADIUS || "20"; // miles
-exports.pages = Number(process.env.npm_package_config_pages || process.env.PAGES || "1");
+exports.pages = Number(process.env.PAGES
+    || process.env.npm_config_pages
+    || process.env.npm_config_package_pages
+    || "1");
 /**
  * DOM Mappings for AutoTrader.com
  */
