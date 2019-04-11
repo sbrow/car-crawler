@@ -1,8 +1,9 @@
 "use strict";
 exports.__esModule = true;
+var funcs_1 = require("./funcs");
 var Car = /** @class */ (function () {
     function Car(data) {
-        console.debug("Car input: " + JSON.stringify(data));
+        funcs_1.console.debug("Car input: " + JSON.stringify(data));
         for (var key in data) {
             if (data.hasOwnProperty(key)) {
                 switch (key) {
@@ -18,7 +19,7 @@ var Car = /** @class */ (function () {
                                 this.date = new Date(tempDate);
                             }
                             catch (error) {
-                                console.warn(error);
+                                funcs_1.console.warn(error);
                             }
                         }
                         break;
@@ -27,7 +28,7 @@ var Car = /** @class */ (function () {
                 }
             }
         }
-        console.debug(this);
+        funcs_1.console.debug(this);
     }
     return Car;
 }());

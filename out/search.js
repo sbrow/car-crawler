@@ -175,17 +175,17 @@ function Search(opts) {
                     _a.label = 8;
                 case 8:
                     _a.trys.push([8, 11, , 12]);
-                    console.debug("Wait for 'Next Page' button to be visible...");
+                    funcs_1.console.debug("Wait for 'Next Page' button to be visible...");
                     // "Next Page" Button/link.
                     return [4 /*yield*/, tab.untilVisible(opts.next)];
                 case 9:
                     // "Next Page" Button/link.
                     _a.sent();
-                    console.debug("'Next Page' button found!");
+                    funcs_1.console.debug("'Next Page' button found!");
                     return [4 /*yield*/, tab.click(opts.next)];
                 case 10:
                     _a.sent();
-                    console.debug("button clicked!");
+                    funcs_1.console.debug("button clicked!");
                     return [3 /*break*/, 12];
                 case 11:
                     e_2 = _a.sent();
@@ -196,11 +196,11 @@ function Search(opts) {
                     return [4 /*yield*/, tab.untilVisible(opts.result)];
                 case 13:
                     _a.sent();
-                    console.debug("Injecting JQuery...");
+                    funcs_1.console.debug("Injecting JQuery...");
                     return [4 /*yield*/, tab.inject("./node_modules/jquery/dist/jquery.min.js")];
                 case 14:
                     _a.sent(); // We're going to use jQuery to scrape
-                    console.debug("JQuery injected!");
+                    funcs_1.console.debug("JQuery injected!");
                     return [3 /*break*/, 16];
                 case 15:
                     e_3 = _a.sent();
@@ -208,15 +208,15 @@ function Search(opts) {
                     return [3 /*break*/, 16];
                 case 16:
                     _a.trys.push([16, 18, , 19]);
-                    console.debug("Evaluating page...");
+                    funcs_1.console.debug("Evaluating page...");
                     return [4 /*yield*/, tab.evaluate(opts, scrapeResult)];
                 case 17:
                     tmpResults = _a.sent();
-                    console.debug(tmpResults.length + " results.");
+                    funcs_1.console.debug(tmpResults.length + " results.");
                     tmpResults.forEach(function (result) {
                         results.push(new URL(result));
                     });
-                    console.debug("page evaluated!");
+                    funcs_1.console.debug("page evaluated!");
                     return [3 /*break*/, 19];
                 case 18:
                     e_4 = _a.sent();
@@ -273,7 +273,7 @@ function SearchResults(opts) {
                     return [4 /*yield*/, funcs_1.visit(url, exports.scrapePage, opts.result)];
                 case 3:
                     result = _a.sent();
-                    console.debug("visit(" + url + ", scrapePage, " + JSON.stringify(opts.result) + ") result " + JSON.stringify(result));
+                    funcs_1.console.debug("visit(" + url + ", scrapePage, " + JSON.stringify(opts.result) + ") result " + JSON.stringify(result));
                     results.push(result);
                     bar.tick();
                     _a.label = 4;

@@ -17,14 +17,14 @@ async function connect() {
 }
 
 after(function () {
-    new Promise((resolve) => setTimeout(resolve, 5000))
+    new Promise((resolve) => setTimeout(resolve, 10000))
         .then((res) => {
             nick.exit(0);
         });
 });
 
-describe("sites", function () {
-    describe.skip("#Search", function () {
+/* describe.skip("sites", function () {
+    describe("#Search", function () {
         const totalPages = (perPage: number) => perPage * pages;
         const tests = [
             { site: "carfax", want: totalPages(25) },
@@ -47,7 +47,7 @@ describe("sites", function () {
         const tests = {
             cargurus: [
                 // "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=229809122_isFeatured",
-                "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=230155922_isFeatured",
+                "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=234741649_isFeatured",
             ],
             // cars: ["https://www.cars.com/vehicledetail/detail/764313498/overview/"],
             // carfax: ["https://www.carfax.com/vehicle/1FDRF3HT0CEB32118"],
@@ -64,13 +64,22 @@ describe("sites", function () {
             }
         }
     });
-});
+}); */
 
-// describe("main", async function () {
-//     const db = await connect();
-//     for (const site of sites) {
-//         main(db, "cars", site)
-//             .then((res) => console.log(res));
-//     }
-//     nick.exit();
-// });;
+describe("main", async function () {
+    const db = await connect();
+    const cars = [];
+    for (const site in sites) {
+        if (sites.hasOwnProperty(site)) {
+            try {
+                const section = await main(db, "cars", sites[site]);
+                if (section instanceof Array) {
+                    cars.push(...section);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+    return cars;
+});

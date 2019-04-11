@@ -1,6 +1,6 @@
 import * as ProgressBar from "progress";
 
-import { HandleError, nick, visit } from "./funcs";
+import { console, HandleError, nick, visit } from "./funcs";
 import { Callback, Page, ResultsPage, Scraper, SearchOptions, SearchResultOptions } from "./index";
 
 /**

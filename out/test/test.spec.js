@@ -35,14 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-/* tslint:disable only-arrow-functions */
-var assert = require("assert");
 var mongodb = require("mongodb");
-var car_1 = require("../car");
 var funcs_1 = require("../funcs");
 var main_1 = require("../main");
-var search_1 = require("../search");
-var sites_1 = require("../sites");
 function connect() {
     return __awaiter(this, void 0, void 0, function () {
         var dbName, dbRoute, client;
@@ -60,85 +55,91 @@ function connect() {
     });
 }
 after(function () {
-    new Promise(function (resolve) { return setTimeout(resolve, 5000); })
+    new Promise(function (resolve) { return setTimeout(resolve, 10000); })
         .then(function (res) {
         funcs_1.nick.exit(0);
     });
 });
-describe("sites", function () {
-    describe.skip("#Search", function () {
-        var totalPages = function (perPage) { return perPage * sites_1.pages; };
-        var tests = [
+/* describe.skip("sites", function () {
+    describe("#Search", function () {
+        const totalPages = (perPage: number) => perPage * pages;
+        const tests = [
             { site: "carfax", want: totalPages(25) },
             { site: "cargurus", want: totalPages(19) },
             { site: "cars", want: totalPages(100) },
         ];
-        var _loop_1 = function (test_1) {
-            it("\"" + test_1.site + "\" should return " + test_1.want + " ", function () {
-                return __awaiter(this, void 0, void 0, function () {
-                    var got;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                this.timeout(15000);
-                                return [4 /*yield*/, search_1.Search(main_1.sites[test_1.site].search)];
-                            case 1:
-                                got = _a.sent();
-                                assert.strictEqual(test_1.want, got.length);
-                                return [2 /*return*/, got];
-                        }
-                    });
-                });
+
+        for (const test of tests) {
+            it(`"${test.site}" should return ${test.want} `, async function () {
+                this.timeout(15000);
+
+                const got = await Search(sites[test.site].search);
+                assert.strictEqual(test.want, got.length);
+                return got;
             });
-        };
-        for (var _i = 0, tests_1 = tests; _i < tests_1.length; _i++) {
-            var test_1 = tests_1[_i];
-            _loop_1(test_1);
         }
     });
+
     describe("#visit", function () {
-        var tests = {
+        const tests = {
             cargurus: [
                 // "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=229809122_isFeatured",
-                "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=230155922_isFeatured",
-            ]
+                "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=234741649_isFeatured",
+            ],
+            // cars: ["https://www.cars.com/vehicledetail/detail/764313498/overview/"],
+            // carfax: ["https://www.carfax.com/vehicle/1FDRF3HT0CEB32118"],
         };
-        var _loop_2 = function (site) {
-            var _loop_3 = function (listing) {
-                it("should ...", function () {
-                    return __awaiter(this, void 0, void 0, function () {
-                        var data;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    this.timeout(20000);
-                                    return [4 /*yield*/, funcs_1.visit(listing, search_1.scrapePage, main_1.sites[site].result)];
-                                case 1:
-                                    data = _a.sent();
-                                    console.log(data);
-                                    console.log(new car_1.Car(data));
-                                    return [2 /*return*/, data];
-                            }
-                        });
-                    });
+        for (const site in tests) {
+            for (const listing of tests[site]) {
+                it("should ...", async function () {
+                    this.timeout(20000);
+                    const data = await visit(listing, scrapePage, sites[site].result);
+                    console.log(data);
+                    console.log(new Car(data));
+                    return data;
                 });
-            };
-            for (var _i = 0, _a = tests[site]; _i < _a.length; _i++) {
-                var listing = _a[_i];
-                _loop_3(listing);
             }
-        };
-        for (var site in tests) {
-            _loop_2(site);
         }
     });
+}); */
+describe("main", function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var db, cars, _a, _b, _i, site, section, error_1;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, connect()];
+                case 1:
+                    db = _c.sent();
+                    cars = [];
+                    _a = [];
+                    for (_b in main_1.sites)
+                        _a.push(_b);
+                    _i = 0;
+                    _c.label = 2;
+                case 2:
+                    if (!(_i < _a.length)) return [3 /*break*/, 7];
+                    site = _a[_i];
+                    if (!main_1.sites.hasOwnProperty(site)) return [3 /*break*/, 6];
+                    _c.label = 3;
+                case 3:
+                    _c.trys.push([3, 5, , 6]);
+                    return [4 /*yield*/, main_1.main(db, "cars", main_1.sites[site])];
+                case 4:
+                    section = _c.sent();
+                    if (section instanceof Array) {
+                        cars.push.apply(cars, section);
+                    }
+                    return [3 /*break*/, 6];
+                case 5:
+                    error_1 = _c.sent();
+                    console.error(error_1);
+                    return [3 /*break*/, 6];
+                case 6:
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 7: return [2 /*return*/, cars];
+            }
+        });
+    });
 });
-// describe("main", async function () {
-//     const db = await connect();
-//     for (const site of sites) {
-//         main(db, "cars", site)
-//             .then((res) => console.log(res));
-//     }
-//     nick.exit();
-// });;
 //# sourceMappingURL=test.spec.js.map

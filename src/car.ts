@@ -1,3 +1,5 @@
+import { console } from "./funcs";
+
 export class Car {
     public make: string;
     public model: string;
