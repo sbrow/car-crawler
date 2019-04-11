@@ -3,6 +3,7 @@ import * as assert from "assert";
 import * as mocha from "mocha";
 import * as mongodb from "mongodb";
 
+import { Car } from "./car";
 import { nick, visit } from "./funcs";
 import { main, sites } from "./main";
 import { scrapePage, Search } from "./search";
@@ -23,7 +24,7 @@ after(function () {
 });
 
 describe("sites", function () {
-    describe("#Search", function () {
+    describe.skip("#Search", function () {
         const totalPages = (perPage: number) => perPage * pages;
         const tests = [
             { site: "carfax", want: totalPages(25) },
@@ -43,13 +44,25 @@ describe("sites", function () {
     });
 
     describe("#visit", function () {
-        it("should ...", async function () {
-            this.timeout(20000);
-            // const data = await visit("https://www.carfax.com/vehicle/2GNFLGE56C6210250", scrapePage, sites.carfax.result);
-            const data = await visit("https://www.cars.com/vehicledetail/detail/764313498/overview/", scrapePage, sites.cars.result);
-            console.log(data);
-            return data;
-        });
+        const tests = {
+            cargurus: [
+                // "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=229809122_isFeatured",
+                "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=230155922_isFeatured",
+            ],
+            // cars: ["https://www.cars.com/vehicledetail/detail/764313498/overview/"],
+            // carfax: ["https://www.carfax.com/vehicle/1FDRF3HT0CEB32118"],
+        };
+        for (const site in tests) {
+            for (const listing of tests[site]) {
+                it("should ...", async function () {
+                    this.timeout(20000);
+                    const data = await visit(listing, scrapePage, sites[site].result);
+                    console.log(data);
+                    console.log(new Car(data));
+                    return data;
+                });
+            }
+        }
     });
 });
 

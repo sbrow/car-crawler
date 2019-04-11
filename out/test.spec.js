@@ -38,6 +38,7 @@ exports.__esModule = true;
 /* tslint:disable only-arrow-functions */
 var assert = require("assert");
 var mongodb = require("mongodb");
+var car_1 = require("./car");
 var funcs_1 = require("./funcs");
 var main_1 = require("./main");
 var search_1 = require("./search");
@@ -65,7 +66,7 @@ after(function () {
     });
 });
 describe("sites", function () {
-    describe("#Search", function () {
+    describe.skip("#Search", function () {
         var totalPages = function (perPage) { return perPage * sites_1.pages; };
         var tests = [
             { site: "carfax", want: totalPages(25) },
@@ -96,22 +97,40 @@ describe("sites", function () {
         }
     });
     describe("#visit", function () {
-        it("should ...", function () {
-            return __awaiter(this, void 0, void 0, function () {
-                var data;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            this.timeout(20000);
-                            return [4 /*yield*/, funcs_1.visit("https://www.cars.com/vehicledetail/detail/764313498/overview/", search_1.scrapePage, main_1.sites.cars.result)];
-                        case 1:
-                            data = _a.sent();
-                            console.log(data);
-                            return [2 /*return*/, data];
-                    }
+        var tests = {
+            cargurus: [
+                // "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=229809122_isFeatured",
+                "https://www.cargurus.com/Cars/inventorylisting/viewDetailsFilterViewInventoryListing.action?sourceContext=carGurusHomePageModel&entitySelectingHelper.selectedEntity=&zip=14850#listing=230155922_isFeatured",
+            ]
+        };
+        var _loop_2 = function (site) {
+            var _loop_3 = function (listing) {
+                it("should ...", function () {
+                    return __awaiter(this, void 0, void 0, function () {
+                        var data;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    this.timeout(20000);
+                                    return [4 /*yield*/, funcs_1.visit(listing, search_1.scrapePage, main_1.sites[site].result)];
+                                case 1:
+                                    data = _a.sent();
+                                    console.log(data);
+                                    console.log(new car_1.Car(data));
+                                    return [2 /*return*/, data];
+                            }
+                        });
+                    });
                 });
-            });
-        });
+            };
+            for (var _i = 0, _a = tests[site]; _i < _a.length; _i++) {
+                var listing = _a[_i];
+                _loop_3(listing);
+            }
+        };
+        for (var site in tests) {
+            _loop_2(site);
+        }
     });
 });
 // describe("main", async function () {

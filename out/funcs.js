@@ -116,14 +116,6 @@ exports.scrape = function (m, callback) {
     }
     callback(err, data);
 };
-/**
- * Opens `url` in a new tab and scrapes it by calling `tab.evaluate(scraper(selectors));`.
- * If `untilVisible` is supplied, visit will wait for the specified selector to load before scraping.
- *
- * @see Nick.Tab.evaluate
- */
-// export function visit(url: URL | string, scraper: Scraper, selectors: Selectors, untilVisible?: JQuery.Selector | JQuery.Selector[], wait?: number): Promise<any>;
-// export function visit(url: URL | string, scraper: Scraper, opts: Page): Promise<any>;
 function visit(url, scraper) {
     var opts = [];
     for (var _i = 2; _i < arguments.length; _i++) {

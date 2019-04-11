@@ -29,7 +29,7 @@ exports.AutoTrader = {
 /** DOM Mappings for Cars.com */
 exports.Cars = {
     search: {
-        entry: new URL("https://www.cars.com/for-sale/searchresults.action/?perPage=100&page=1&rd=" + radius + "&searchSource=QUICK_FORM&zc=" + zip + "&sort=listed-newest"),
+        entry: new URL("https://www.cars.com/for-sale/searchresults.action/?perPage=20&page=1&rd=" + radius + "&searchSource=QUICK_FORM&zc=" + zip + "&sort=listed-newest"),
         result: 'a[id^="listing-"]',
         resultURL: "https://www.cars.com/vehicledetail/detail/$(id)/overview/",
         next: "a.button.next-page",
@@ -63,7 +63,7 @@ exports.CarFax = {
             interior: ".infoTable-table > tbody > tr > th:contains(Interior) +",
             mileage: ".infoTable-table > tbody > tr > th:contains(Mileage) +",
             price: ".infoTable-table > tbody > tr > th:contains(Price) +",
-            // date: `table.price-history-table > tbody > tr:nth-child(2) > td.date`,
+            date: "table.price-history-table > tbody > tr:nth-child(2) > td.date",
             vin: ".infoTable-table > tbody > tr > th:contains(VIN) +"
         },
         waitFor: ".infoTable-table"
@@ -86,11 +86,19 @@ exports.CarGuru = {
             interior: ".cg-listingDetail-specsWrap > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(6) > td:nth-child(2)",
             mileage: ".cg-listingDetail-specsWrap > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(2)",
             price: ".cg-listingDetail-specsWrap > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > span:nth-child(1)",
-            vin: ".cg-listingDetail-specsWrap > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(10) > td:nth-child(2)"
+            vin: ".cg-listingDetail-specsWrap > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(10) > td:nth-child(2)",
+            date: "div.timeOnMarket > div.cg-vdp-icon > div.cg-leverage-details > h4 > div > span:contains(on CarGurus) > strong"
         },
         waitFor: [".cg-listingDetail-specsWrap"]
     }
 };
+/* const RepoCar: SearchResultOptions = {
+    search: {
+        entry: new URL("https://repokar.com/search/"),
+        result: `div.row:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)`,
+    },
+    result: {},
+}; */
 exports.sites = {
     autotrader: exports.AutoTrader,
     carfax: exports.CarFax,
