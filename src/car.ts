@@ -12,25 +12,29 @@ export class Car {
     public link: string;
 
     constructor(data: { [name: string]: any }) {
-        console.debug(JSON.stringify(data));
-        this.make = data.make;
-        if ("date" in data) {
-            const tempDate: string = data.date.substring(0, 10);
-            if (tempDate.match(/days/)) {
-                const days = Number(tempDate.split(" ")[0]);
-                this.date = new Date();
-                this.date.setDate(this.date.getDate() - days);
-            } else {
-                this.date = new Date(tempDate);
+        console.debug(`Car input: ${JSON.stringify(data)}`);
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                switch (key) {
+                    case "date":
+                        const tempDate: string = data[key].substring(0, 10);
+                        if (tempDate.match(/days/)) {
+                            const days = Number(tempDate.split(" ")[0]);
+                            this.date = new Date();
+                            this.date.setDate(this.date.getDate() - days);
+                        } else {
+                            try {
+                                this.date = new Date(tempDate);
+                            } catch (error) {
+                                console.warn(error);
+                            }
+                        }
+                        break;
+                    default:
+                        this[key] = data[key];
+                }
             }
         }
-        this.mileage = data.mileage;
-        this.model = data.model;
-        this.exterior = data.exterior;
-        this.interior = data.interior;
-        this.vin = data.vin;
-        this.price = data.price;
-        this.link = data.link;
         console.debug(this);
     }
 }

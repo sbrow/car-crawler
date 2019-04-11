@@ -105,7 +105,7 @@ export const CarGuru: SearchResultOptions = {
 }; */
 
 export const sites = {
-    autotrader: AutoTrader,
+    // autotrader: AutoTrader,
     carfax: CarFax,
     cargurus: CarGuru,
     cars: Cars,

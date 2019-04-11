@@ -100,7 +100,7 @@ exports.CarGuru = {
     result: {},
 }; */
 exports.sites = {
-    autotrader: exports.AutoTrader,
+    // autotrader: AutoTrader,
     carfax: exports.CarFax,
     cargurus: exports.CarGuru,
     cars: exports.Cars

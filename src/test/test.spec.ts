@@ -3,11 +3,11 @@ import * as assert from "assert";
 import * as mocha from "mocha";
 import * as mongodb from "mongodb";
 
-import { Car } from "./car";
-import { nick, visit } from "./funcs";
-import { main, sites } from "./main";
-import { scrapePage, Search } from "./search";
-import { pages } from "./sites";
+import { Car } from "../car";
+import { nick, visit } from "../funcs";
+import { main, sites } from "../main";
+import { scrapePage, Search } from "../search";
+import { pages } from "../sites";
 
 async function connect() {
     const dbName = `heroku_dn9q80h5`;
