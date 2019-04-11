@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/mocha": "^5.2.6",
+    "jquery": "^3.4.0",
     "mocha": "^6.1.2",
     "mongodb": "^3.2.3",
     "nickjs": "^0.3.6",
